@@ -1,0 +1,9 @@
+psycopg2-binary
+pandas
+pyarrow
+google-cloud-bigquery
+google-genai
+streamlit
+python-dotenv
+pydantic
+faker

@@ -1,0 +1,8 @@
+.env
+.venv/
+__pycache__/
+*.parquet
+profile.json
+plan.json
+naive_plan.json
+report.json
