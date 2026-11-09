@@ -9,6 +9,7 @@ Naive plan (naive_plan.json): a rule-based careless mapping with no AI
 (numeric -> FLOAT64, timestamps/json/arrays -> STRING, '' -> NULL).
 
 Run from the project root:  python -m agent.planner
+Add jsonb _raw companions to an existing plan.json (no Gemini):  python -m agent.planner --amend-raw
 """
 import json
 import os
@@ -34,6 +35,7 @@ MAX_CLUSTER_COLUMNS = 4
 RETRY_STATUS_CODES = {429, 500, 502, 503, 504}
 BACKOFF_SECONDS = [2, 4, 8, 16, 32]
 SOURCE_TIMEZONE = "Asia/Kolkata"
+RAW_SUFFIX = "_raw"
 
 BQ_SCALAR = r"(STRING|BYTES|INT64|FLOAT64|NUMERIC|BIGNUMERIC|BOOL|DATE|DATETIME|TIMESTAMP|TIME|JSON)"
 BQ_TYPE_RE = re.compile(rf"^(ARRAY<{BQ_SCALAR}>|{BQ_SCALAR}(\(\d+(,\s*\d+)?\))?)$")
@@ -52,6 +54,21 @@ class ColumnPlan(BaseModel):
     bq_type: str
     transform: Transform
     reason: str
+    raw_companion: Optional[str] = None  # extra STRING column with the exact source text
+
+
+class TargetColumn(BaseModel):
+    """One physical BigQuery column: a planned column or a _raw companion."""
+    name: str
+    source_column: str
+    source_type: str
+    bq_type: str
+    transform: Transform
+    is_raw_companion: bool = False
+
+
+def raw_companion_name(column: str) -> str:
+    return f"{column}{RAW_SUFFIX}"
 
 
 class TablePlan(BaseModel):
@@ -75,6 +92,20 @@ class TablePlan(BaseModel):
 class Plan(BaseModel):
     """A full migration plan: one entry per source table."""
     tables: list[TablePlan]
+
+
+def target_columns(tp: TablePlan) -> list[TargetColumn]:
+    """Physical target columns in order; a _raw companion follows its JSON column."""
+    out = []
+    for c in tp.columns:
+        out.append(TargetColumn(name=c.source_column, source_column=c.source_column,
+                                source_type=c.source_type, bq_type=c.bq_type,
+                                transform=c.transform))
+        if c.raw_companion:
+            out.append(TargetColumn(name=c.raw_companion, source_column=c.source_column,
+                                    source_type=c.source_type, bq_type="STRING",
+                                    transform="keep_as_is", is_raw_companion=True))
+    return out
 
 
 # ---------------------------------------------------------------- profile helpers
@@ -133,8 +164,13 @@ def check_column_rules(table: str, cp: ColumnPlan, src: dict) -> list[str]:
         elif tr not in ("timestamp_to_datetime", "timestamp_to_timestamp_utc"):
             errors.append(f"{where}: timestamp needs timestamp_to_datetime or "
                           f"timestamp_to_timestamp_utc, got {tr}")
-    if udt in ("json", "jsonb") and (bq != "JSON" or tr != "json_to_json"):
-        errors.append(f"{where}: jsonb must map to JSON with json_to_json")
+    if udt in ("json", "jsonb"):
+        if bq != "JSON" or tr != "json_to_json":
+            errors.append(f"{where}: jsonb must map to JSON with json_to_json")
+        if cp.raw_companion != raw_companion_name(cp.source_column):
+            errors.append(f"{where}: jsonb needs raw_companion "
+                          f"'{raw_companion_name(cp.source_column)}' (BigQuery JSON stores "
+                          f"numbers as FLOAT64)")
     if src["is_array"] and (not bq.startswith("ARRAY<") or tr != "array_to_array"):
         errors.append(f"{where}: arrays must map to ARRAY<...> with array_to_array")
     if tr == "empty_string_to_null" and udt not in TEXT_UDTS:
@@ -156,6 +192,19 @@ def check_table_plan(tp: TablePlan, src_cols: dict[str, dict], strict_rules: boo
     for name in set(names) - src_cols.keys():
         errors.append(f"{tp.source_table}.{name}: not a source column")
     planned = {c.source_column: c for c in tp.columns}
+    for cp in tp.columns:
+        if cp.raw_companion is None:
+            continue
+        src = src_cols.get(cp.source_column)
+        if src is not None and src["udt"] not in ("json", "jsonb"):
+            errors.append(f"{tp.source_table}.{cp.source_column}: raw_companion is only "
+                          f"allowed on json/jsonb columns")
+        if cp.raw_companion in src_cols:
+            errors.append(f"{tp.source_table}.{cp.source_column}: raw_companion "
+                          f"'{cp.raw_companion}' collides with a source column")
+    companions = [c.raw_companion for c in tp.columns if c.raw_companion]
+    if len(set(companions)) != len(companions):
+        errors.append(f"{tp.source_table}: duplicate raw_companion names")
     if tp.partition_column is not None:
         cp = planned.get(tp.partition_column)
         if cp is None:
@@ -208,7 +257,9 @@ Rules (mandatory):
    DATETIME (transform timestamp_to_datetime) or to TIMESTAMP (transform
    timestamp_to_timestamp_utc) — if you choose TIMESTAMP, the reason must state the
    assumption that source values are {SOURCE_TIMEZONE} local time.
-3. jsonb -> JSON (transform json_to_json).
+3. jsonb -> JSON (transform json_to_json) AND set raw_companion to "<column>_raw".
+   BigQuery JSON stores numbers as FLOAT64, so the companion STRING column keeps the
+   exact original text. For every non-json column raw_companion must be null.
 4. text[] -> ARRAY<STRING> (transform array_to_array).
 5. Do NOT silently convert empty strings to NULL. For text columns that contain empty
    strings use keep_as_is unless converting is clearly justified by the data; say why.
@@ -229,12 +280,13 @@ def make_client():
     return genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
 
-def call_gemini(client, model: str, contents: list) -> str:
-    """Call Gemini in JSON mode with the Plan schema; retry 429/5xx with backoff."""
+def call_gemini(client, model: str, contents: list,
+                system_prompt: str = SYSTEM_PROMPT, schema: type[BaseModel] = Plan) -> str:
+    """Call Gemini in JSON mode with a response schema; retry 429/5xx with backoff."""
     from google.genai import errors, types
     config = types.GenerateContentConfig(
-        system_instruction=SYSTEM_PROMPT, temperature=0,
-        response_mime_type="application/json", response_schema=Plan)
+        system_instruction=system_prompt, temperature=0,
+        response_mime_type="application/json", response_schema=schema)
     for attempt, delay in enumerate([0, *BACKOFF_SECONDS]):
         if delay:
             print(f"  rate-limited/unavailable, retrying in {delay}s ...")
@@ -354,11 +406,53 @@ def format_plan(plan: Plan) -> str:
         for c in tp.columns:
             lines.append(f"  {c.source_column:<18} {c.source_type:<28} {c.bq_type:<16} "
                          f"{c.transform:<26} {c.reason}")
+            if c.raw_companion:
+                lines.append(f"  {'+ ' + c.raw_companion:<18} {c.source_type:<28} "
+                             f"{'STRING':<16} {'keep_as_is':<26} exact original JSON text")
     return "\n".join(lines)
+
+
+# ---------------------------------------------------------------- deterministic amendments
+
+def add_raw_companions(plan: Plan, profile: dict) -> list[str]:
+    """Set raw_companion on every json/jsonb column; return what changed."""
+    index = column_index(profile)
+    changed = []
+    for tp in plan.tables:
+        for cp in tp.columns:
+            src = index.get(tp.source_table, {}).get(cp.source_column)
+            if src and src["udt"] in ("json", "jsonb") and not cp.raw_companion:
+                cp.raw_companion = raw_companion_name(cp.source_column)
+                changed.append(f"{tp.source_table}.{cp.source_column} -> +{cp.raw_companion}")
+    return changed
+
+
+def amend_saved_plan(path: Path, profile: dict) -> list[str]:
+    """Add raw companions to a saved agent plan without calling Gemini."""
+    doc = json.loads(path.read_text(encoding="utf-8"))
+    plan = Plan.model_validate(doc)
+    changed = add_raw_companions(plan, profile)
+    errors = validate_plan(plan, profile)
+    if errors:
+        sys.exit("Amended plan is invalid:\n- " + "\n- ".join(errors))
+    if changed:
+        doc["tables"] = plan.model_dump()["tables"]
+        doc.setdefault("amendments", []).append({
+            "at": datetime.now().replace(microsecond=0).isoformat(),
+            "rule": "jsonb raw companion (deterministic, no Gemini call)",
+            "changes": changed})
+        path.write_text(json.dumps(doc, indent=2, ensure_ascii=False), encoding="utf-8")
+    return changed
 
 
 def main() -> None:
     profile = load_profile()
+    if "--amend-raw" in sys.argv:
+        changed = amend_saved_plan(PLAN_PATH, profile)
+        print("Amended plan.json:" if changed else "plan.json already has raw companions.")
+        for c in changed:
+            print(f"  {c}")
+        return
 
     naive = build_naive_plan(profile)
     naive_errors = validate_plan(naive, profile, strict_rules=False)

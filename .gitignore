@@ -8,3 +8,4 @@ naive_plan.json
 report.json
 tmp/
 migration_log.json
+report_*.json

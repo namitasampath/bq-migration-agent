@@ -8,7 +8,8 @@ Each table is streamed out of Postgres with a server-side cursor (read-only, nev
 port 5432), converted per the plan, written to tmp/<target>.parquet with an explicit
 pyarrow schema, then loaded with a BigQuery load job using an explicit schema. BigQuery cannot load
 Parquet into JSON columns, so tables with a JSON column also get tmp/<target>.ndjson
-(same converted values) and load from that instead.
+(same converted values) and load from that instead. A jsonb column with a raw_companion
+is loaded twice: as JSON and as <col>_raw STRING holding the exact Postgres text.
 No streaming inserts, no DML. BQ_SANDBOX=true defers partitioning (sandbox
 partitions expire after 60 days). Results are recorded in migration_log.json.
 """
@@ -29,7 +30,8 @@ from dotenv import load_dotenv
 from psycopg2 import sql
 from psycopg2.extras import register_default_json, register_default_jsonb
 
-from agent.planner import NAIVE_PLAN_PATH, PLAN_PATH, ColumnPlan, Plan, TablePlan, load_plan
+from agent.planner import (NAIVE_PLAN_PATH, PLAN_PATH, Plan, TablePlan, TargetColumn,
+                           load_plan, target_columns)
 from agent.profiler import connect
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -86,27 +88,27 @@ def arrow_scalar(base: str, params: tuple[int, int] | None) -> pa.DataType:
     return simple[base]
 
 
-def arrow_field(col: ColumnPlan) -> pa.Field:
+def arrow_field(col: TargetColumn) -> pa.Field:
     """Arrow field matching the planned BigQuery column."""
     base, is_array, params = parse_bq_type(col.bq_type)
     t = arrow_scalar(base, params)
     if is_array:
-        return pa.field(col.source_column, pa.list_(pa.field("element", t)), nullable=False)
-    return pa.field(col.source_column, t)
+        return pa.field(col.name, pa.list_(pa.field("element", t)), nullable=False)
+    return pa.field(col.name, t)
 
 
 def arrow_schema(tp: TablePlan) -> pa.Schema:
-    return pa.schema([arrow_field(c) for c in tp.columns])
+    return pa.schema([arrow_field(c) for c in target_columns(tp)])
 
 
-def bq_field(col: ColumnPlan):
+def bq_field(col: TargetColumn):
     """BigQuery SchemaField matching the planned column."""
     from google.cloud import bigquery
     base, is_array, params = parse_bq_type(col.bq_type)
     kwargs = {}
     if params and base in ("NUMERIC", "BIGNUMERIC"):
         kwargs = {"precision": params[0], "scale": params[1]}
-    return bigquery.SchemaField(col.source_column, base,
+    return bigquery.SchemaField(col.name, base,
                                 mode="REPEATED" if is_array else "NULLABLE", **kwargs)
 
 
@@ -143,7 +145,7 @@ def ist_to_utc(v: datetime) -> datetime:
     return v.replace(tzinfo=IST).astimezone(timezone.utc)
 
 
-def base_converter(col: ColumnPlan) -> Converter:
+def base_converter(col: TargetColumn) -> Converter:
     """Converter for a non-NULL value, chosen from bq_type, source type and transform."""
     base, is_array, _ = parse_bq_type(col.bq_type)
     src = col.source_type
@@ -160,7 +162,7 @@ def base_converter(col: ColumnPlan) -> Converter:
     return lambda v: v  # INT64, DATE, DATETIME, JSON (raw text), BOOL, ...
 
 
-def make_converter(col: ColumnPlan) -> Converter:
+def make_converter(col: TargetColumn) -> Converter:
     """Full converter for a column, including NULL and empty-string handling."""
     convert = base_converter(col)
     _, is_array, _ = parse_bq_type(col.bq_type)
@@ -178,8 +180,9 @@ def make_converter(col: ColumnPlan) -> Converter:
 # ---------------------------------------------------------------- extract -> parquet
 
 def select_query(tp: TablePlan) -> sql.Composed:
-    """SELECT the planned columns in plan order, ordered by the first column."""
-    cols = [sql.Identifier(c.source_column) for c in tp.columns]
+    """SELECT the source column of every target column (a JSON column twice when it has
+    a _raw companion), ordered by the first column."""
+    cols = [sql.Identifier(c.source_column) for c in target_columns(tp)]
     return sql.SQL("SELECT {} FROM {} ORDER BY 1").format(
         sql.SQL(", ").join(cols), sql.Identifier("public", tp.source_table))
 
@@ -197,7 +200,7 @@ def columns_to_arrow(columns: list[list], schema: pa.Schema) -> pa.Table:
 
 def has_json_column(tp: TablePlan) -> bool:
     """BigQuery cannot load Parquet into JSON columns, so such tables load as NDJSON."""
-    return any(parse_bq_type(c.bq_type)[0] == "JSON" for c in tp.columns)
+    return any(parse_bq_type(c.bq_type)[0] == "JSON" for c in target_columns(tp))
 
 
 def ndjson_value(v, base: str) -> str:
@@ -219,8 +222,9 @@ def columns_to_ndjson(columns: list[list], tp: TablePlan) -> str:
     NULLs are omitted, not written as null: a JSON column would store a JSON 'null'
     value instead of SQL NULL. A missing field always loads as SQL NULL.
     """
-    keys = [json.dumps(c.source_column) for c in tp.columns]
-    bases = [parse_bq_type(c.bq_type)[0] for c in tp.columns]
+    cols = target_columns(tp)
+    keys = [json.dumps(c.name) for c in cols]
+    bases = [parse_bq_type(c.bq_type)[0] for c in cols]
     lines = []
     for row in zip(*columns):
         parts = [f"{k}: {ndjson_value(v, b)}"
@@ -231,14 +235,14 @@ def columns_to_ndjson(columns: list[list], tp: TablePlan) -> str:
 
 def count_null_arrays(rows: list[tuple], tp: TablePlan) -> int:
     """Count NULL values in ARRAY columns (they load as empty arrays)."""
-    idx = [i for i, c in enumerate(tp.columns) if parse_bq_type(c.bq_type)[1]]
+    idx = [i for i, c in enumerate(target_columns(tp)) if parse_bq_type(c.bq_type)[1]]
     return sum(1 for r in rows for i in idx if r[i] is None)
 
 
 def extract(conn, tp: TablePlan, parquet_path: Path, ndjson_path: Path | None) -> dict:
     """Stream a table into Parquet (and NDJSON when needed) in chunks; return stats."""
     schema = arrow_schema(tp)
-    converters = [make_converter(c) for c in tp.columns]
+    converters = [make_converter(c) for c in target_columns(tp)]
     rows_extracted, null_arrays = 0, 0
     ndjson = ndjson_path.open("w", encoding="utf-8", newline="\n") if ndjson_path else None
     try:
@@ -282,7 +286,7 @@ def load_job_config(tp: TablePlan, sandbox: bool, source_format: str):
     from google.cloud import bigquery
     config = bigquery.LoadJobConfig(
         source_format=source_format,
-        schema=[bq_field(c) for c in tp.columns],
+        schema=[bq_field(c) for c in target_columns(tp)],
         autodetect=False,
         write_disposition=bigquery.WriteDisposition.WRITE_TRUNCATE,
         create_disposition=bigquery.CreateDisposition.CREATE_IF_NEEDED,
