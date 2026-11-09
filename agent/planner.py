@@ -233,7 +233,7 @@ def call_gemini(client, model: str, contents: list) -> str:
     """Call Gemini in JSON mode with the Plan schema; retry 429/5xx with backoff."""
     from google.genai import errors, types
     config = types.GenerateContentConfig(
-        system_instruction=SYSTEM_PROMPT, temperature=0.1,
+        system_instruction=SYSTEM_PROMPT, temperature=0,
         response_mime_type="application/json", response_schema=Plan)
     for attempt, delay in enumerate([0, *BACKOFF_SECONDS]):
         if delay:
