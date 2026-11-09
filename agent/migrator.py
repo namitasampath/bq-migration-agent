@@ -31,7 +31,7 @@ from psycopg2 import sql
 from psycopg2.extras import register_default_json, register_default_jsonb
 
 from agent.planner import (NAIVE_PLAN_PATH, PLAN_PATH, Plan, TablePlan, TargetColumn,
-                           load_plan, target_columns)
+                           approval_info, load_plan, target_columns)
 from agent.profiler import connect
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -388,38 +388,70 @@ def parse_args(argv=None) -> argparse.Namespace:
     return p.parse_args(argv)
 
 
-def main(argv=None) -> None:
+class PlanNotApproved(RuntimeError):
+    """plan.json has no approved_at, so the agent plan may not be migrated."""
+
+
+def run_migration(plan_name: str, tables: list[str] | None = None,
+                  on_event: Callable[[str, dict], None] | None = None) -> list[dict]:
+    """Migrate a plan; report progress through on_event(kind, data).
+
+    Events: "start" {target, sandbox}, "table_start" {source_table, partitioning},
+    "table_done" <log entry>. The agent plan must be approved (approved_at in plan.json).
+    """
     from google.cloud import bigquery
-    args = parse_args(argv)
+    emit = on_event or (lambda kind, data: None)
+    if plan_name == "agent" and not approval_info(PLAN_PATH):
+        raise PlanNotApproved("plan.json is not approved; approve it in the app or run "
+                              "'python -m agent.planner --approve' first")
     settings = read_bq_settings()
-    plan = load_plan(PLANS[args.plan])
-    tables = select_tables(plan, args.tables)
+    selected = select_tables(load_plan(PLANS[plan_name]), tables)
     TMP_DIR.mkdir(exist_ok=True)
     client = bigquery.Client(project=settings["project"])
     ensure_dataset(client, settings["project"], settings["dataset"])
-    print(f"Plan '{args.plan}' -> {settings['project']}.{settings['dataset']} "
-          f"(sandbox={settings['sandbox']})")
+    emit("start", {"target": f"{settings['project']}.{settings['dataset']}",
+                   "sandbox": settings["sandbox"], "tables": [t.source_table for t in selected]})
     entries = []
     conn = open_source()
     try:
-        for tp in tables:
-            entry = migrate_table(conn, client, tp, f"{args.plan}_", settings)
+        for tp in selected:
+            emit("table_start", {"source_table": tp.source_table,
+                                 "partitioning": partition_status(tp, settings["sandbox"]),
+                                 "partition_column": tp.partition_column})
+            entry = migrate_table(conn, client, tp, f"{plan_name}_", settings)
             entries.append(entry)
-            print(f"  {entry['target_table']:<20} extracted={entry['rows_extracted']:>6} "
-                  f"loaded={entry['rows_loaded']:>6}  {entry['seconds']:>6.2f}s  "
-                  f"partitioning={entry['partitioning']}")
-            if entry["null_arrays_loaded_as_empty"]:
-                print(f"    note: {entry['null_arrays_loaded_as_empty']} NULL arrays "
-                      f"loaded as [] (BigQuery arrays cannot be NULL)")
+            emit("table_done", entry)
             if not entry["ok"]:
-                update_log(args.plan, settings, entries)
+                update_log(plan_name, settings, entries)
                 raise RuntimeError(
                     f"Row count mismatch for {entry['target_table']}: extracted "
                     f"{entry['rows_extracted']}, job loaded {entry['rows_loaded']}, "
                     f"table has {entry['table_num_rows']}")
     finally:
         conn.close()
-    update_log(args.plan, settings, entries)
+    update_log(plan_name, settings, entries)
+    return entries
+
+
+def print_event(kind: str, data: dict) -> None:
+    """CLI progress output for run_migration."""
+    if kind == "start":
+        print(f"Migrating -> {data['target']} (sandbox={data['sandbox']})")
+    elif kind == "table_done":
+        print(f"  {data['target_table']:<20} extracted={data['rows_extracted']:>6} "
+              f"loaded={data['rows_loaded']:>6}  {data['seconds']:>6.2f}s  "
+              f"partitioning={data['partitioning']}")
+        if data["null_arrays_loaded_as_empty"]:
+            print(f"    note: {data['null_arrays_loaded_as_empty']} NULL arrays "
+                  f"loaded as [] (BigQuery arrays cannot be NULL)")
+
+
+def main(argv=None) -> None:
+    args = parse_args(argv)
+    try:
+        run_migration(args.plan, args.tables, print_event)
+    except PlanNotApproved as e:
+        sys.exit(str(e))
     print(f"Done. Log written to {LOG_PATH}")
 
 

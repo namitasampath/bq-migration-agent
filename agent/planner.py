@@ -1,14 +1,16 @@
 """Turn profile.json into BigQuery migration plans.
 
-Agent plan (plan.json): Gemini (google-genai, AI Studio key) proposes a schema as
-structured JSON. The response is validated with pydantic, then deterministically
-against the profile and the migration rules; on failure Gemini gets one retry with
-the error list. 429/5xx responses are retried with exponential backoff.
+Agent plan: Gemini (google-genai, AI Studio key) proposes a schema as structured JSON,
+saved to plan_proposed.json. The response is validated with pydantic, then
+deterministically against the profile and the migration rules; on failure Gemini gets
+one retry with the error list. A human approves it, which copies it to plan.json with
+approved_at; only an approved plan.json can be migrated.
 
 Naive plan (naive_plan.json): a rule-based careless mapping with no AI
 (numeric -> FLOAT64, timestamps/json/arrays -> STRING, '' -> NULL).
 
-Run from the project root:  python -m agent.planner
+Run from the project root:  python -m agent.planner            (writes the proposal)
+Approve the proposal:                python -m agent.planner --approve
 Add jsonb _raw companions to an existing plan.json (no Gemini):  python -m agent.planner --amend-raw
 """
 import hashlib
@@ -26,7 +28,8 @@ from pydantic import BaseModel, ValidationError, field_validator
 
 ROOT = Path(__file__).resolve().parents[1]
 PROFILE_PATH = ROOT / "profile.json"
-PLAN_PATH = ROOT / "plan.json"
+PLAN_PATH = ROOT / "plan.json"                     # approved plan (has approved_at)
+PROPOSED_PLAN_PATH = ROOT / "plan_proposed.json"   # Gemini output awaiting approval
 NAIVE_PLAN_PATH = ROOT / "naive_plan.json"
 
 Transform = Literal["none", "empty_string_to_null", "keep_as_is", "timestamp_to_datetime",
@@ -556,6 +559,83 @@ def amend_saved_plan(path: Path, profile: dict) -> list[str]:
     return changed
 
 
+# ---------------------------------------------------------------- propose / approve
+
+def generate_proposals(profile: dict, client=None, model: Optional[str] = None) -> Plan:
+    """Write naive_plan.json (rule-based) and plan_proposed.json (Gemini). Never plan.json."""
+    naive = build_naive_plan(profile)
+    naive_errors = validate_plan(naive, profile, strict_rules=False)
+    if naive_errors:
+        raise ValueError("Naive plan is structurally invalid:\n- " + "\n- ".join(naive_errors))
+    save_plan(naive, NAIVE_PLAN_PATH, mode="naive", model=None)
+    client = client or make_client()
+    model = model or os.environ["GEMINI_MODEL"]
+    plan = build_agent_plan(profile, client, model)
+    save_plan(plan, PROPOSED_PLAN_PATH, mode="agent", model=model)
+    return plan
+
+
+def approval_info(path: Path = PLAN_PATH) -> Optional[str]:
+    """approved_at of a plan file, or None if missing / never approved."""
+    if not path.exists():
+        return None
+    return json.loads(path.read_text(encoding="utf-8")).get("approved_at")
+
+
+def propose_from_approved() -> None:
+    """Copy plan.json to plan_proposed.json (without approval) so it can be reviewed."""
+    doc = json.loads(PLAN_PATH.read_text(encoding="utf-8"))
+    doc.pop("approved_at", None)
+    PROPOSED_PLAN_PATH.write_text(json.dumps(doc, indent=2, ensure_ascii=False),
+                                  encoding="utf-8")
+
+
+def approve_plan(profile: dict, proposed: Path = PROPOSED_PLAN_PATH,
+                 target: Path = PLAN_PATH) -> str:
+    """Validate the proposal, copy it to plan.json with approved_at; return the timestamp."""
+    doc = json.loads(proposed.read_text(encoding="utf-8"))
+    errors = validate_plan(Plan.model_validate(doc), profile)
+    if errors:
+        raise ValueError("Proposed plan is invalid:\n- " + "\n- ".join(errors))
+    doc["approved_at"] = datetime.now().replace(microsecond=0).isoformat()
+    target.write_text(json.dumps(doc, indent=2, ensure_ascii=False), encoding="utf-8")
+    return doc["approved_at"]
+
+
+def plan_diff(old: Plan, new: Plan) -> list[dict]:
+    """Decision-level differences between two plans (tables, columns, layout)."""
+    rows = []
+    old_t = {t.source_table: t for t in old.tables}
+    new_t = {t.source_table: t for t in new.tables}
+    for name in sorted(old_t.keys() | new_t.keys()):
+        a, b = old_t.get(name), new_t.get(name)
+        if a is None or b is None:
+            rows.append({"table": name, "item": "(table)", "approved": "present" if a else "-",
+                         "proposed": "present" if b else "-"})
+            continue
+        for item in ("target_table", "partition_column", "clustering_columns"):
+            if getattr(a, item) != getattr(b, item):
+                rows.append({"table": name, "item": item, "approved": str(getattr(a, item)),
+                             "proposed": str(getattr(b, item))})
+        rows.extend(column_diff(name, a, b))
+    return rows
+
+
+def column_diff(table: str, a: TablePlan, b: TablePlan) -> list[dict]:
+    """Per-column differences in bq_type, transform and raw_companion."""
+    rows = []
+    ac = {c.source_column: c for c in a.columns}
+    bc = {c.source_column: c for c in b.columns}
+    for col in sorted(ac.keys() | bc.keys()):
+        x, y = ac.get(col), bc.get(col)
+        for field in ("bq_type", "transform", "raw_companion"):
+            vx, vy = getattr(x, field, None), getattr(y, field, None)
+            if vx != vy:
+                rows.append({"table": table, "item": f"{col}.{field}",
+                             "approved": str(vx), "proposed": str(vy)})
+    return rows
+
+
 def main() -> None:
     profile = load_profile()
     if "--amend-raw" in sys.argv:
@@ -564,21 +644,16 @@ def main() -> None:
         for c in changed:
             print(f"  {c}")
         return
-
-    naive = build_naive_plan(profile)
-    naive_errors = validate_plan(naive, profile, strict_rules=False)
-    if naive_errors:
-        sys.exit("Naive plan is structurally invalid:\n- " + "\n- ".join(naive_errors))
-    save_plan(naive, NAIVE_PLAN_PATH, mode="naive", model=None)
-    print(f"Saved naive plan to {NAIVE_PLAN_PATH}")
-
-    client = make_client()
-    model = os.environ["GEMINI_MODEL"]
-    print(f"Asking {model} for the agent plan ...")
-    plan = build_agent_plan(profile, client, model)
-    save_plan(plan, PLAN_PATH, mode="agent", model=model)
+    if "--approve" in sys.argv:
+        print(f"Approved {PROPOSED_PLAN_PATH.name} -> {PLAN_PATH.name} at "
+              f"{approve_plan(profile)}")
+        return
+    print(f"Asking {os.getenv('GEMINI_MODEL')} for the agent plan ...")
+    plan = generate_proposals(profile)
     print(format_plan(plan))
-    print(f"\nSaved agent plan to {PLAN_PATH}")
+    print(f"\nSaved naive plan to {NAIVE_PLAN_PATH}")
+    print(f"Saved PROPOSED agent plan to {PROPOSED_PLAN_PATH} (not yet approved). "
+          f"Review it, then approve in the app or with: python -m agent.planner --approve")
 
 
 if __name__ == "__main__":

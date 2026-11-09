@@ -716,6 +716,33 @@ def parse_args(argv=None) -> argparse.Namespace:
     return p.parse_args(argv)
 
 
+def combined_status(statuses) -> str:
+    """Worst of table/query statuses; NOT_RUN (unproven) ranks between WARN and FAIL."""
+    rank = {PASS: 0, INFO: 0, WARN: 1, "NOT_RUN": 2, FAIL: 3}
+    statuses = [s for s in statuses if s]
+    return max(statuses, key=lambda s: rank.get(s, 0)) if statuses else PASS
+
+
+def carry_over_query_parity(path: Path, report: dict) -> None:
+    """Keep the translator's query_parity section when the validator rewrites the report.
+
+    The section is copied unchanged (it was produced by the translator's own
+    deterministic comparison) and marked as carried over until the translator re-runs.
+    """
+    if not path.exists():
+        return
+    try:
+        old = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return
+    section = old.get("query_parity")
+    if not section:
+        return
+    report["query_parity"] = {**section, "carried_over_from_report_at": old.get("generated_at")}
+    report["overall_status"] = combined_status(
+        [report["summary"]["overall"], section.get("summary", {}).get("overall")])
+
+
 def main(argv=None) -> int:
     from google.cloud import bigquery
     from agent.migrator import select_tables
@@ -741,6 +768,7 @@ def main(argv=None) -> int:
               "sandbox": log.get(args.plan, {}).get("sandbox"),
               "summary": summary, "tables": results, "ai_explanations": ai}
     out = ROOT / f"report_{args.plan}.json"
+    carry_over_query_parity(out, report)
     out.write_text(to_json(report), encoding="utf-8")
     print(f"Validation of plan '{args.plan}' ({settings['dataset']})")
     for t in results:
