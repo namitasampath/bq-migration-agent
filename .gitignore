@@ -9,3 +9,5 @@ report.json
 tmp/
 migration_log.json
 report_*.json
+translations_*.json
+.cache/

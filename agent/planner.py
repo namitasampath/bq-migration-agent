@@ -11,6 +11,7 @@ Naive plan (naive_plan.json): a rule-based careless mapping with no AI
 Run from the project root:  python -m agent.planner
 Add jsonb _raw companions to an existing plan.json (no Gemini):  python -m agent.planner --amend-raw
 """
+import hashlib
 import json
 import os
 import re
@@ -34,6 +35,8 @@ Transform = Literal["none", "empty_string_to_null", "keep_as_is", "timestamp_to_
 MAX_CLUSTER_COLUMNS = 4
 RETRY_STATUS_CODES = {429, 500, 502, 503, 504}
 BACKOFF_SECONDS = [2, 4, 8, 16, 32]
+MAX_RETRY_WAIT_SECONDS = 60  # a 429 asking us to wait longer than this fails fast
+CACHE_DIR = ROOT / ".cache" / "gemini"
 SOURCE_TIMEZONE = "Asia/Kolkata"
 RAW_SUFFIX = "_raw"
 
@@ -280,24 +283,132 @@ def make_client():
     return genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
 
+class GeminiQuotaExhausted(RuntimeError):
+    """Daily (or long-window) Gemini quota is used up; retrying now is pointless."""
+
+
+def quota_retry_delay(e) -> Optional[float]:
+    """Seconds the API asks us to wait (RetryInfo.retryDelay), if present."""
+    m = re.search(r"retryDelay['\"]?\s*:\s*['\"](\d+(?:\.\d+)?)s", str(e))
+    return float(m.group(1)) if m else None
+
+
+def is_quota_exhausted(e) -> bool:
+    """429 caused by a per-day quota, or one that asks for a wait we won't do."""
+    if getattr(e, "code", None) != 429:
+        return False
+    delay = quota_retry_delay(e)
+    return "PerDay" in str(e) or (delay is not None and delay > MAX_RETRY_WAIT_SECONDS)
+
+
+# ---------------------------------------------------------------- response cache
+
+def cache_enabled() -> bool:
+    load_dotenv(ROOT / ".env")
+    return os.getenv("GEMINI_CACHE", "true").strip().lower() == "true"
+
+
+def serialize_contents(contents: list) -> list:
+    """JSON-safe form of str / types.Content / dict contents (for hashing)."""
+    out = []
+    for c in contents:
+        if hasattr(c, "model_dump"):
+            out.append(c.model_dump(mode="json", exclude_none=True))
+        else:
+            out.append(c)
+    return out
+
+
+def cache_key(model: str, system_prompt: str, contents: list, schema: type[BaseModel]) -> str:
+    """sha256 of (model, system prompt, contents, schema name)."""
+    payload = json.dumps({"model": model, "system_prompt": system_prompt,
+                          "contents": serialize_contents(contents),
+                          "schema": schema.__name__},
+                         sort_keys=True, ensure_ascii=False, default=str)
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def cache_read(key: str) -> Optional[str]:
+    """Saved response text for a key, or None (missing or unreadable)."""
+    path = CACHE_DIR / f"{key}.json"
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))["text"]
+    except (OSError, ValueError, KeyError):
+        return None
+
+
+def cache_write(key: str, text: str, model: str, schema: type[BaseModel]) -> None:
+    """Save a response; written to a temp file first so a crash never leaves half a file."""
+    CACHE_DIR.mkdir(parents=True, exist_ok=True)
+    path = CACHE_DIR / f"{key}.json"
+    tmp = path.with_suffix(".tmp")
+    tmp.write_text(json.dumps({"model": model, "schema": schema.__name__,
+                               "created_at": datetime.now().replace(microsecond=0).isoformat(),
+                               "text": text}, ensure_ascii=False, indent=2), encoding="utf-8")
+    tmp.replace(path)
+
+
+# ---------------------------------------------------------------- Gemini call
+
 def call_gemini(client, model: str, contents: list,
                 system_prompt: str = SYSTEM_PROMPT, schema: type[BaseModel] = Plan) -> str:
-    """Call Gemini in JSON mode with a response schema; retry 429/5xx with backoff."""
+    """Call Gemini in JSON mode with a response schema, via the response cache.
+
+    Cache: .cache/gemini/<sha256>.json, keyed on (model, system prompt, contents, schema
+    name); disabled with GEMINI_CACHE=false. Thinking is set to GEMINI_THINKING_LEVEL
+    (default: minimal). 429/5xx are retried with backoff, except an exhausted daily
+    quota, which raises GeminiQuotaExhausted immediately.
+    """
+    use_cache = cache_enabled()
+    key = cache_key(model, system_prompt, contents, schema)
+    if use_cache and (cached := cache_read(key)) is not None:
+        print("  gemini call: cached", flush=True)
+        return cached
+    text = generate_with_retries(client, model, contents, system_prompt, schema)
+    if use_cache:
+        cache_write(key, text, model, schema)
+    return text
+
+
+def generate_with_retries(client, model: str, contents: list, system_prompt: str,
+                          schema: type[BaseModel]) -> str:
+    """The live API call: thinking level, timing print, backoff, fail-fast on quota."""
     from google.genai import errors, types
-    config = types.GenerateContentConfig(
-        system_instruction=system_prompt, temperature=0,
-        response_mime_type="application/json", response_schema=schema)
+    level = os.getenv("GEMINI_THINKING_LEVEL", "minimal").strip().upper()
+    thinking = (types.ThinkingConfig(thinking_level=level)
+                if level and level != "DEFAULT" else None)
     for attempt, delay in enumerate([0, *BACKOFF_SECONDS]):
         if delay:
-            print(f"  rate-limited/unavailable, retrying in {delay}s ...")
+            print(f"  rate-limited/unavailable, retrying in {delay}s ...", flush=True)
             time.sleep(delay)
+        config = types.GenerateContentConfig(
+            system_instruction=system_prompt, temperature=0, thinking_config=thinking,
+            response_mime_type="application/json", response_schema=schema)
+        started = time.perf_counter()
         try:
             response = client.models.generate_content(model=model, contents=contents,
                                                       config=config)
-            return response.text or ""
         except errors.APIError as e:
+            if is_quota_exhausted(e):
+                delay_s = quota_retry_delay(e)
+                wait = f" (API says retry in {delay_s / 60:.0f} min)" if delay_s else ""
+                raise GeminiQuotaExhausted(f"Gemini quota exhausted for {model}{wait}") from e
+            if thinking is not None and e.code == 400 and "think" in str(e).lower():
+                print(f"  model rejected thinking_level={level}; using default thinking. "
+                      f"API said: {getattr(e, 'message', None) or str(e)[:300]}", flush=True)
+                thinking = None
+                continue
             if e.code not in RETRY_STATUS_CODES or attempt == len(BACKOFF_SECONDS):
                 raise
+            continue
+        usage = response.usage_metadata
+        thoughts = getattr(usage, "thoughts_token_count", None) if usage else None
+        output = getattr(usage, "candidates_token_count", None) if usage else None
+        print(f"  gemini call: {time.perf_counter() - started:.1f}s "
+              f"(thinking={level if thinking is not None else 'default'}, "
+              f"thought tokens={thoughts}, "
+              f"output tokens={output})", flush=True)
+        return response.text or ""
     raise RuntimeError("unreachable")
 
 
