@@ -1,0 +1,531 @@
+{
+  "plan": "naive",
+  "model": "gemini-3.5-flash-lite",
+  "generated_at": "2026-11-09T12:58:20",
+  "queries": [
+    {
+      "name": "monthly_disbursement_by_branch",
+      "original_sql": "SELECT\n    b.branch_code,\n    b.branch_name,\n    DATE_TRUNC('month', l.disbursed_at)::date      AS disbursal_month,\n    COUNT(*)                                        AS loans_disbursed,\n    SUM(l.principal_amount)::numeric(18,4)          AS total_disbursed,\n    ROUND(AVG(l.interest_rate), 3)                  AS avg_interest_rate\nFROM loans l\nJOIN branches b ON b.branch_id = l.branch_id\nWHERE l.disbursed_at >= '2024-01-01'::timestamp\n  AND l.loan_type NOT ILIKE 'micro%'\nGROUP BY b.branch_code, b.branch_name, DATE_TRUNC('month', l.disbursed_at)\nORDER BY disbursal_month, b.branch_code",
+      "translated_sql": "SELECT b.branch_code, b.branch_name, CAST(DATE_TRUNC(PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%E*S', l.disbursed_at), MONTH) AS DATE) AS disbursal_month, COUNT(*) AS loans_disbursed, CAST(SUM(l.principal_amount) AS NUMERIC) AS total_disbursed, ROUND(AVG(l.interest_rate), 3) AS avg_interest_rate FROM `your-gcp-project.migrated_lending.naive_loans` AS l JOIN `your-gcp-project.migrated_lending.naive_branches` AS b ON b.branch_id = l.branch_id WHERE PARSE_TIMESTAMP('%Y-%m-%d %H:%M:%E*S', l.disbursed_at) >= TIMESTAMP('2024-01-01') AND NOT REGEXP_CONTAINS(LOWER(l.loan_type), r'^micro') GROUP BY b.branch_code, b.branch_name, disbursal_month ORDER BY disbursal_month, b.branch_code",
+      "dialect_changes": [
+        "Cast string disbursed_at to timestamp using PARSE_TIMESTAMP",
+        "DATE_TRUNC with month interval on timestamp",
+        "Cast sum result to NUMERIC",
+        "ILIKE -> LOWER() and REGEXP_CONTAINS",
+        "Group by alias"
+      ],
+      "confidence": "high",
+      "attempts": [
+        {
+          "attempt": 1,
+          "errors": [],
+          "dry_run_ok": true,
+          "bytes_processed": 306708
+        }
+      ],
+      "translation_source": "gemini",
+      "translated_at": "2026-11-09T12:58:10",
+      "status": "FAIL",
+      "detail": "285 source rows and 285 target rows have no exact match",
+      "parity": {
+        "source_columns": [
+          "branch_code",
+          "branch_name",
+          "disbursal_month",
+          "loans_disbursed",
+          "total_disbursed",
+          "avg_interest_rate"
+        ],
+        "target_columns": [
+          "branch_code",
+          "branch_name",
+          "disbursal_month",
+          "loans_disbursed",
+          "total_disbursed",
+          "avg_interest_rate"
+        ],
+        "source_rows": 645,
+        "target_rows": 645,
+        "matching_rows": 360,
+        "examples": [
+          {
+            "source_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "disbursal_month": "2024-02-01",
+              "loans_disbursed": "3",
+              "total_disbursed": "14828829.3787",
+              "avg_interest_rate": "13.289"
+            },
+            "target_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "disbursal_month": "2024-02-01",
+              "loans_disbursed": "3",
+              "total_disbursed": "14828829.378699999",
+              "avg_interest_rate": "13.289"
+            },
+            "differing_columns": [
+              "total_disbursed"
+            ]
+          },
+          {
+            "source_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "disbursal_month": "2024-05-01",
+              "loans_disbursed": "4",
+              "total_disbursed": "8834873.4347",
+              "avg_interest_rate": "14.639"
+            },
+            "target_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "disbursal_month": "2024-05-01",
+              "loans_disbursed": "4",
+              "total_disbursed": "8834873.434700001",
+              "avg_interest_rate": "14.639"
+            },
+            "differing_columns": [
+              "total_disbursed"
+            ]
+          },
+          {
+            "source_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "disbursal_month": "2024-06-01",
+              "loans_disbursed": "6",
+              "total_disbursed": "5899218.9163",
+              "avg_interest_rate": "14.391"
+            },
+            "target_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "disbursal_month": "2024-06-01",
+              "loans_disbursed": "6",
+              "total_disbursed": "5899218.9163",
+              "avg_interest_rate": "14.39"
+            },
+            "differing_columns": [
+              "avg_interest_rate"
+            ]
+          },
+          {
+            "source_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "disbursal_month": "2024-08-01",
+              "loans_disbursed": "4",
+              "total_disbursed": "10495692.9255",
+              "avg_interest_rate": "19.051"
+            },
+            "target_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "disbursal_month": "2024-08-01",
+              "loans_disbursed": "4",
+              "total_disbursed": "10495692.925499998",
+              "avg_interest_rate": "19.051"
+            },
+            "differing_columns": [
+              "total_disbursed"
+            ]
+          },
+          {
+            "source_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "disbursal_month": "2024-12-01",
+              "loans_disbursed": "5",
+              "total_disbursed": "14357157.321",
+              "avg_interest_rate": "15.743"
+            },
+            "target_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "disbursal_month": "2024-12-01",
+              "loans_disbursed": "5",
+              "total_disbursed": "14357157.321000002",
+              "avg_interest_rate": "15.743"
+            },
+            "differing_columns": [
+              "total_disbursed"
+            ]
+          }
+        ],
+        "source_only_rows": 285,
+        "target_only_rows": 285,
+        "status": "FAIL",
+        "detail": "285 source rows and 285 target rows have no exact match"
+      }
+    },
+    {
+      "name": "currently_overdue_loans",
+      "original_sql": "SELECT\n    l.loan_id,\n    c.full_name,\n    COALESCE(NULLIF(c.phone, ''), NULLIF(c.alt_phone, ''), 'N/A') AS contact_phone,\n    b.branch_code,\n    l.loan_type,\n    l.emi_amount,\n    l.next_due_date,\n    (CURRENT_DATE - l.next_due_date)::int           AS days_past_due,\n    COALESCE(array_to_string(l.tags, '|'), '')      AS tags\nFROM loans l\nJOIN customers c ON c.customer_id = l.customer_id\nJOIN branches  b ON b.branch_id   = l.branch_id\nWHERE l.status IN ('ACTIVE', 'OVERDUE')\n  AND l.next_due_date < CURRENT_DATE\n  AND COALESCE(l.remarks, '') NOT ILIKE '%settled%'\nORDER BY days_past_due DESC, l.loan_id",
+      "translated_sql": "SELECT l.loan_id, c.full_name, COALESCE(NULLIF(c.phone, ''), NULLIF(c.alt_phone, ''), 'N/A') AS contact_phone, b.branch_code, l.loan_type, l.emi_amount, l.next_due_date, CAST(DATE_DIFF(CURRENT_DATE(), l.next_due_date, DAY) AS INT64) AS days_past_due, COALESCE(l.tags, '') AS tags FROM `your-gcp-project.migrated_lending.naive_loans` l JOIN `your-gcp-project.migrated_lending.naive_customers` c ON c.customer_id = l.customer_id JOIN `your-gcp-project.migrated_lending.naive_branches` b ON b.branch_id = l.branch_id WHERE l.status IN ('ACTIVE', 'OVERDUE') AND l.next_due_date < CURRENT_DATE() AND NOT (LOWER(COALESCE(l.remarks, '')) LIKE '%settled%') ORDER BY days_past_due DESC, l.loan_id",
+      "dialect_changes": [
+        "DATE_DIFF instead of operator subtraction",
+        "CAST(... AS INT64) instead of ::int",
+        "CURRENT_DATE() function call",
+        "array_to_string removed because tags is stored as STRING",
+        "ILIKE -> NOT (LOWER(...) LIKE ...)",
+        "Fully-qualified table names"
+      ],
+      "confidence": "high",
+      "attempts": [
+        {
+          "attempt": 1,
+          "errors": [],
+          "dry_run_ok": true,
+          "bytes_processed": 501672
+        }
+      ],
+      "translation_source": "gemini",
+      "translated_at": "2026-11-09T12:58:14",
+      "status": "FAIL",
+      "detail": "671 source rows and 671 target rows have no exact match",
+      "parity": {
+        "source_columns": [
+          "loan_id",
+          "full_name",
+          "contact_phone",
+          "branch_code",
+          "loan_type",
+          "emi_amount",
+          "next_due_date",
+          "days_past_due",
+          "tags"
+        ],
+        "target_columns": [
+          "loan_id",
+          "full_name",
+          "contact_phone",
+          "branch_code",
+          "loan_type",
+          "emi_amount",
+          "next_due_date",
+          "days_past_due",
+          "tags"
+        ],
+        "source_rows": 1375,
+        "target_rows": 1375,
+        "matching_rows": 704,
+        "examples": [
+          {
+            "source_row": {
+              "loan_id": "1",
+              "full_name": "ಅನಿಲ್ ಕುಮಾರ್",
+              "contact_phone": "6133760523",
+              "branch_code": "BR002",
+              "loan_type": "MICROFINANCE",
+              "emi_amount": "5362.6943",
+              "next_due_date": "2026-11-07",
+              "days_past_due": "2",
+              "tags": "ಗ್ರಾಮೀಣ|women's scheme|rural"
+            },
+            "target_row": {
+              "loan_id": "1",
+              "full_name": "ಅನಿಲ್ ಕುಮಾರ್",
+              "contact_phone": "6133760523",
+              "branch_code": "BR002",
+              "loan_type": "MICROFINANCE",
+              "emi_amount": "5362.6943",
+              "next_due_date": "2026-11-07",
+              "days_past_due": "2",
+              "tags": "ಗ್ರಾಮೀಣ,women's scheme,rural"
+            },
+            "differing_columns": [
+              "tags"
+            ]
+          },
+          {
+            "source_row": {
+              "loan_id": "1002",
+              "full_name": "Joseph D'Souza",
+              "contact_phone": "+911909248762",
+              "branch_code": "BR005",
+              "loan_type": "HOME",
+              "emi_amount": "82286.9751",
+              "next_due_date": "2026-11-02",
+              "days_past_due": "7",
+              "tags": "rural|co-applicant"
+            },
+            "target_row": {
+              "loan_id": "1002",
+              "full_name": "Joseph D'Souza",
+              "contact_phone": "+911909248762",
+              "branch_code": "BR005",
+              "loan_type": "HOME",
+              "emi_amount": "82286.9751",
+              "next_due_date": "2026-11-02",
+              "days_past_due": "7",
+              "tags": "rural,co-applicant"
+            },
+            "differing_columns": [
+              "tags"
+            ]
+          },
+          {
+            "source_row": {
+              "loan_id": "101",
+              "full_name": "Brijesh Yadav",
+              "contact_phone": "+916824239977",
+              "branch_code": "BR013",
+              "loan_type": "GOLD",
+              "emi_amount": "43920.6259",
+              "next_due_date": "2026-09-27",
+              "days_past_due": "43",
+              "tags": "NPA-watch|ಗ್ರಾಮೀಣ|priority"
+            },
+            "target_row": {
+              "loan_id": "101",
+              "full_name": "Brijesh Yadav",
+              "contact_phone": "+916824239977",
+              "branch_code": "BR013",
+              "loan_type": "GOLD",
+              "emi_amount": "43920.6259",
+              "next_due_date": "2026-09-27",
+              "days_past_due": "43",
+              "tags": "NPA-watch,ಗ್ರಾಮೀಣ,priority"
+            },
+            "differing_columns": [
+              "tags"
+            ]
+          },
+          {
+            "source_row": {
+              "loan_id": "1016",
+              "full_name": "Hitesh Keer",
+              "contact_phone": "+911669460212",
+              "branch_code": "BR016",
+              "loan_type": "HOME",
+              "emi_amount": "96541.6937",
+              "next_due_date": "2026-11-06",
+              "days_past_due": "3",
+              "tags": "co-applicant|top-up|NPA-watch"
+            },
+            "target_row": {
+              "loan_id": "1016",
+              "full_name": "Hitesh Keer",
+              "contact_phone": "+911669460212",
+              "branch_code": "BR016",
+              "loan_type": "HOME",
+              "emi_amount": "96541.6937",
+              "next_due_date": "2026-11-06",
+              "days_past_due": "3",
+              "tags": "co-applicant,top-up,NPA-watch"
+            },
+            "differing_columns": [
+              "tags"
+            ]
+          },
+          {
+            "source_row": {
+              "loan_id": "1025",
+              "full_name": "Ekbal Sami",
+              "contact_phone": "8157245000",
+              "branch_code": "BR005",
+              "loan_type": "HOME",
+              "emi_amount": "294469.8886",
+              "next_due_date": "2026-11-01",
+              "days_past_due": "8",
+              "tags": "co-applicant|top-up"
+            },
+            "target_row": {
+              "loan_id": "1025",
+              "full_name": "Ekbal Sami",
+              "contact_phone": "8157245000",
+              "branch_code": "BR005",
+              "loan_type": "HOME",
+              "emi_amount": "294469.8886",
+              "next_due_date": "2026-11-01",
+              "days_past_due": "8",
+              "tags": "co-applicant,top-up"
+            },
+            "differing_columns": [
+              "tags"
+            ]
+          }
+        ],
+        "source_only_rows": 671,
+        "target_only_rows": 671,
+        "status": "FAIL",
+        "detail": "671 source rows and 671 target rows have no exact match"
+      }
+    },
+    {
+      "name": "collection_rate_by_branch",
+      "original_sql": "SELECT\n    b.branch_code,\n    b.branch_name,\n    COUNT(p.payment_id)                                                        AS payment_attempts,\n    COALESCE(SUM(p.amount) FILTER (WHERE p.status = 'SUCCESS'), 0)::numeric(18,4) AS collected_amount,\n    COALESCE(SUM(p.amount), 0)::numeric(18,4)                                  AS demanded_amount,\n    ROUND(\n        COALESCE(SUM(p.amount) FILTER (WHERE p.status = 'SUCCESS'), 0)\n        / NULLIF(SUM(p.amount), 0) * 100,\n        2\n    )                                                                          AS collection_rate_pct,\n    COUNT(*) FILTER (WHERE p.payment_mode ILIKE 'upi')                         AS upi_payments\nFROM branches b\nLEFT JOIN loans    l ON l.branch_id = b.branch_id\nLEFT JOIN payments p ON p.loan_id   = l.loan_id\nGROUP BY b.branch_code, b.branch_name\nORDER BY collection_rate_pct DESC NULLS LAST, b.branch_code",
+      "translated_sql": "SELECT b.branch_code, b.branch_name, COUNT(p.payment_id) AS payment_attempts, CAST(COALESCE(SUM(CASE WHEN p.status = 'SUCCESS' THEN p.amount END), 0) AS NUMERIC) AS collected_amount, CAST(COALESCE(SUM(p.amount), 0) AS NUMERIC) AS demanded_amount, ROUND(COALESCE(SUM(CASE WHEN p.status = 'SUCCESS' THEN p.amount END), 0) / NULLIF(SUM(p.amount), 0) * 100, 2) AS collection_rate_pct, COUNT(CASE WHEN LOWER(p.payment_mode) LIKE 'upi' THEN 1 END) AS upi_payments FROM `your-gcp-project.migrated_lending.naive_branches` b LEFT JOIN `your-gcp-project.migrated_lending.naive_loans` l ON l.branch_id = b.branch_id LEFT JOIN `your-gcp-project.migrated_lending.naive_payments` p ON p.loan_id = l.loan_id GROUP BY b.branch_code, b.branch_name ORDER BY collection_rate_pct DESC NULLS LAST, b.branch_code",
+      "dialect_changes": [
+        "FILTER (...) WHERE -> CASE WHEN ... THEN ... END",
+        "::numeric(18,4) -> CAST(... AS NUMERIC)",
+        "ILIKE -> LOWER() LIKE",
+        "Fully-qualified table names added"
+      ],
+      "confidence": "high",
+      "attempts": [
+        {
+          "attempt": 1,
+          "errors": [],
+          "dry_run_ok": true,
+          "bytes_processed": 859167
+        }
+      ],
+      "translation_source": "gemini",
+      "translated_at": "2026-11-09T12:58:19",
+      "status": "FAIL",
+      "detail": "20 source rows and 20 target rows have no exact match",
+      "parity": {
+        "source_columns": [
+          "branch_code",
+          "branch_name",
+          "payment_attempts",
+          "collected_amount",
+          "demanded_amount",
+          "collection_rate_pct",
+          "upi_payments"
+        ],
+        "target_columns": [
+          "branch_code",
+          "branch_name",
+          "payment_attempts",
+          "collected_amount",
+          "demanded_amount",
+          "collection_rate_pct",
+          "upi_payments"
+        ],
+        "source_rows": 20,
+        "target_rows": 20,
+        "matching_rows": 0,
+        "examples": [
+          {
+            "source_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "payment_attempts": "1041",
+              "collected_amount": "78322329.8445",
+              "demanded_amount": "91215592.2151",
+              "collection_rate_pct": "85.87",
+              "upi_payments": "328"
+            },
+            "target_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "payment_attempts": "1041",
+              "collected_amount": "78322329.844500005",
+              "demanded_amount": "91215592.21510005",
+              "collection_rate_pct": "85.87",
+              "upi_payments": "328"
+            },
+            "differing_columns": [
+              "collected_amount",
+              "demanded_amount"
+            ]
+          },
+          {
+            "source_row": {
+              "branch_code": "BR002",
+              "branch_name": "Bengaluru - Whitefield",
+              "payment_attempts": "1030",
+              "collected_amount": "78216088.0566",
+              "demanded_amount": "92297004.1785",
+              "collection_rate_pct": "84.74",
+              "upi_payments": "360"
+            },
+            "target_row": {
+              "branch_code": "BR002",
+              "branch_name": "Bengaluru - Whitefield",
+              "payment_attempts": "1030",
+              "collected_amount": "78216088.056600273",
+              "demanded_amount": "92297004.178500205",
+              "collection_rate_pct": "84.74",
+              "upi_payments": "360"
+            },
+            "differing_columns": [
+              "collected_amount",
+              "demanded_amount"
+            ]
+          },
+          {
+            "source_row": {
+              "branch_code": "BR003",
+              "branch_name": "Mysuru",
+              "payment_attempts": "791",
+              "collected_amount": "66313246.4771",
+              "demanded_amount": "82361275.6504",
+              "collection_rate_pct": "80.52",
+              "upi_payments": "279"
+            },
+            "target_row": {
+              "branch_code": "BR003",
+              "branch_name": "Mysuru",
+              "payment_attempts": "791",
+              "collected_amount": "66313246.477099903",
+              "demanded_amount": "82361275.650399983",
+              "collection_rate_pct": "80.52",
+              "upi_payments": "279"
+            },
+            "differing_columns": [
+              "collected_amount",
+              "demanded_amount"
+            ]
+          },
+          {
+            "source_row": {
+              "branch_code": "BR004",
+              "branch_name": "Mangaluru",
+              "payment_attempts": "775",
+              "collected_amount": "53257029.1138",
+              "demanded_amount": "62743653.1134",
+              "collection_rate_pct": "84.88",
+              "upi_payments": "245"
+            },
+            "target_row": {
+              "branch_code": "BR004",
+              "branch_name": "Mangaluru",
+              "payment_attempts": "775",
+              "collected_amount": "53257029.113799959",
+              "demanded_amount": "62743653.113399968",
+              "collection_rate_pct": "84.88",
+              "upi_payments": "245"
+            },
+            "differing_columns": [
+              "collected_amount",
+              "demanded_amount"
+            ]
+          },
+          {
+            "source_row": {
+              "branch_code": "BR005",
+              "branch_name": "Hubballi",
+              "payment_attempts": "1022",
+              "collected_amount": "377642223.6654",
+              "demanded_amount": "388439836.2583",
+              "collection_rate_pct": "97.22",
+              "upi_payments": "361"
+            },
+            "target_row": {
+              "branch_code": "BR005",
+              "branch_name": "Hubballi",
+              "payment_attempts": "1022",
+              "collected_amount": "377642223.665399909",
+              "demanded_amount": "388439836.258299768",
+              "collection_rate_pct": "97.22",
+              "upi_payments": "361"
+            },
+            "differing_columns": [
+              "collected_amount",
+              "demanded_amount"
+            ]
+          }
+        ],
+        "source_only_rows": 20,
+        "target_only_rows": 20,
+        "status": "FAIL",
+        "detail": "20 source rows and 20 target rows have no exact match"
+      }
+    }
+  ]
+}

@@ -25,6 +25,14 @@ Rules:
 - Work on ONE step at a time. After each step, tell me exactly how to run and test it.
 
 ## Progress
-- Steps 0–6 done: seed DB (port 5433), profiler, planner (+ --amend-raw), migrator (Parquet/NDJSON, sandbox mode), validator (type fidelity, _raw JSON companion, known-limitation WARNs).
-- Agent plan: 0 FAIL (2 explained WARNs). Naive plan: 5/5 FAIL.
-- Next: Step 7 (query translation), Step 8 (Streamlit), Step 9 (README).
+- Steps 0–8 done: seed DB (port 5433), profiler, planner (+ --amend-raw, propose/--approve), migrator (Parquet/NDJSON, sandbox mode, approval gate), validator (type fidelity, _raw JSON companion, known-limitation WARNs, keeps query_parity), translator (Gemini SQL translation + deterministic parity, response cache, quota fail-fast), Streamlit app (app.py, Load last results mode).
+- Next: Step 9 (README).
+
+## Headline results (agent vs naive; screenshot: docs/compare.png)
+- Overall: agent WARN (0 failures · 2 known BigQuery limitations, both detected and explained); naive FAIL (5 failures).
+- Tables: agent 3 passed · 2 warned · 0 failed; naive 0 passed · 0 warned · 5 failed.
+- Money columns with SUM drift: agent 0 of 5; naive 5 of 5.
+- Empty strings lost ('' → NULL): agent 0; naive 4,491.
+- Type downgrades: agent 0; naive 14.
+- Rows with changed values: agent 0 of 37,020, naive 7,541 of 37,020 (agent: 1,013 more rows differ only by the known limitations).
+- Business queries identical: agent 3 of 3; naive 0 of 3.

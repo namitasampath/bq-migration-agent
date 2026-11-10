@@ -11,7 +11,7 @@ import json
 import os
 import random
 import sys
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 from decimal import Decimal
 from pathlib import Path
 

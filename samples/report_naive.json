@@ -1,0 +1,3114 @@
+{
+  "plan": "naive",
+  "generated_at": "2026-11-09T12:59:59",
+  "project": "your-gcp-project",
+  "dataset": "migrated_lending",
+  "sandbox": true,
+  "summary": {
+    "tables": 5,
+    "passed": 0,
+    "warned": 0,
+    "failed": 5,
+    "overall": "FAIL"
+  },
+  "tables": [
+    {
+      "source_table": "branches",
+      "target_table": "naive_branches",
+      "table_id": "your-gcp-project.migrated_lending.naive_branches",
+      "primary_key": [
+        "branch_id"
+      ],
+      "fingerprint": {
+        "source_rows": 20,
+        "target_rows": 20,
+        "matching": 14,
+        "mismatched": 6,
+        "known_limitation_rows": 0,
+        "missing_in_target": 0,
+        "extra_in_target": 0,
+        "column_mismatch_counts": {
+          "ifsc_code": 5,
+          "manager_name": 1
+        },
+        "known_limitation_cells": {},
+        "examples": [
+          {
+            "primary_key": {
+              "branch_id": "4"
+            },
+            "column": "ifsc_code",
+            "source_value": "",
+            "target_value": null,
+            "known_limitation": null
+          },
+          {
+            "primary_key": {
+              "branch_id": "6"
+            },
+            "column": "ifsc_code",
+            "source_value": "",
+            "target_value": null,
+            "known_limitation": null
+          },
+          {
+            "primary_key": {
+              "branch_id": "14"
+            },
+            "column": "ifsc_code",
+            "source_value": "",
+            "target_value": null,
+            "known_limitation": null
+          },
+          {
+            "primary_key": {
+              "branch_id": "16"
+            },
+            "column": "manager_name",
+            "source_value": "",
+            "target_value": null,
+            "known_limitation": null
+          },
+          {
+            "primary_key": {
+              "branch_id": "19"
+            },
+            "column": "ifsc_code",
+            "source_value": "",
+            "target_value": null,
+            "known_limitation": null
+          }
+        ],
+        "raw_companions_exact": {}
+      },
+      "checks": [
+        {
+          "check": "schema",
+          "column": null,
+          "status": "PASS",
+          "source": null,
+          "target": null,
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "integer",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "branch_code",
+          "status": "PASS",
+          "source": "character varying(10)",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "branch_name",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "city",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "state",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "ifsc_code",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "manager_name",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "opened_on",
+          "status": "PASS",
+          "source": "date",
+          "target": "DATE",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "created_at",
+          "status": "FAIL",
+          "source": "timestamp without time zone",
+          "target": "STRING",
+          "detail": "downgrade: timestamp without time zone requires DATETIME or TIMESTAMP"
+        },
+        {
+          "check": "row_count",
+          "column": null,
+          "status": "PASS",
+          "source": 20,
+          "target": 20,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": 20,
+          "target": 20,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "210",
+          "target": "210",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "1",
+          "target": "1",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "20",
+          "target": "20",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "branch_code",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "branch_code",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "branch_code",
+          "status": "PASS",
+          "source": 20,
+          "target": 20,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "branch_name",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "branch_name",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "branch_name",
+          "status": "PASS",
+          "source": 20,
+          "target": 20,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "city",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "city",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "city",
+          "status": "PASS",
+          "source": 19,
+          "target": 19,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "state",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "state",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "state",
+          "status": "PASS",
+          "source": 8,
+          "target": 8,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "ifsc_code",
+          "status": "FAIL",
+          "source": 5,
+          "target": 10,
+          "detail": "source 5 != target 10"
+        },
+        {
+          "check": "empty_string_count",
+          "column": "ifsc_code",
+          "status": "FAIL",
+          "source": 5,
+          "target": 0,
+          "detail": "source 5 != target 0"
+        },
+        {
+          "check": "distinct_count",
+          "column": "ifsc_code",
+          "status": "FAIL",
+          "source": 11,
+          "target": 10,
+          "detail": "source 11 != target 10"
+        },
+        {
+          "check": "null_count",
+          "column": "manager_name",
+          "status": "FAIL",
+          "source": 1,
+          "target": 2,
+          "detail": "source 1 != target 2"
+        },
+        {
+          "check": "empty_string_count",
+          "column": "manager_name",
+          "status": "FAIL",
+          "source": 1,
+          "target": 0,
+          "detail": "source 1 != target 0"
+        },
+        {
+          "check": "distinct_count",
+          "column": "manager_name",
+          "status": "FAIL",
+          "source": 19,
+          "target": 18,
+          "detail": "source 19 != target 18"
+        },
+        {
+          "check": "null_count",
+          "column": "opened_on",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "opened_on",
+          "status": "PASS",
+          "source": 20,
+          "target": 20,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "created_at",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "created_at",
+          "status": "PASS",
+          "source": 20,
+          "target": 20,
+          "detail": ""
+        },
+        {
+          "check": "row_fingerprint",
+          "column": null,
+          "status": "FAIL",
+          "source": 20,
+          "target": 20,
+          "detail": "6 mismatched, 0 missing, 0 extra rows"
+        },
+        {
+          "check": "partitioning",
+          "column": null,
+          "status": "PASS",
+          "source": null,
+          "target": null,
+          "detail": ""
+        },
+        {
+          "check": "clustering",
+          "column": null,
+          "status": "PASS",
+          "source": [],
+          "target": [],
+          "detail": ""
+        }
+      ],
+      "status": "FAIL",
+      "check_counts": {
+        "PASS": 33,
+        "INFO": 0,
+        "WARN": 0,
+        "FAIL": 8
+      }
+    },
+    {
+      "source_table": "customers",
+      "target_table": "naive_customers",
+      "table_id": "your-gcp-project.migrated_lending.naive_customers",
+      "primary_key": [
+        "customer_id"
+      ],
+      "fingerprint": {
+        "source_rows": 2000,
+        "target_rows": 2000,
+        "matching": 1162,
+        "mismatched": 838,
+        "known_limitation_rows": 0,
+        "missing_in_target": 0,
+        "extra_in_target": 0,
+        "column_mismatch_counts": {
+          "alt_phone": 516,
+          "email": 181,
+          "occupation": 204,
+          "address": 88
+        },
+        "known_limitation_cells": {},
+        "examples": [
+          {
+            "primary_key": {
+              "customer_id": "6"
+            },
+            "column": "alt_phone",
+            "source_value": "",
+            "target_value": null,
+            "known_limitation": null
+          },
+          {
+            "primary_key": {
+              "customer_id": "6"
+            },
+            "column": "email",
+            "source_value": "",
+            "target_value": null,
+            "known_limitation": null
+          },
+          {
+            "primary_key": {
+              "customer_id": "8"
+            },
+            "column": "email",
+            "source_value": "",
+            "target_value": null,
+            "known_limitation": null
+          },
+          {
+            "primary_key": {
+              "customer_id": "8"
+            },
+            "column": "occupation",
+            "source_value": "",
+            "target_value": null,
+            "known_limitation": null
+          },
+          {
+            "primary_key": {
+              "customer_id": "9"
+            },
+            "column": "address",
+            "source_value": "",
+            "target_value": null,
+            "known_limitation": null
+          }
+        ],
+        "raw_companions_exact": {}
+      },
+      "checks": [
+        {
+          "check": "schema",
+          "column": null,
+          "status": "PASS",
+          "source": null,
+          "target": null,
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": "integer",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "integer",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "full_name",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "pan_number",
+          "status": "PASS",
+          "source": "character(10)",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "phone",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "alt_phone",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "email",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "address",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "occupation",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "monthly_income",
+          "status": "FAIL",
+          "source": "numeric(14,4)",
+          "target": "FLOAT64",
+          "detail": "downgrade: numeric(14,4) requires BIGNUMERIC or NUMERIC"
+        },
+        {
+          "check": "type_fidelity",
+          "column": "date_of_birth",
+          "status": "PASS",
+          "source": "date",
+          "target": "DATE",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "created_at",
+          "status": "FAIL",
+          "source": "timestamp without time zone",
+          "target": "STRING",
+          "detail": "downgrade: timestamp without time zone requires DATETIME or TIMESTAMP"
+        },
+        {
+          "check": "row_count",
+          "column": null,
+          "status": "PASS",
+          "source": 2000,
+          "target": 2000,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": 2000,
+          "target": 2000,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": "2001000",
+          "target": "2001000",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": "1",
+          "target": "1",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": "2000",
+          "target": "2000",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": 20,
+          "target": 20,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "21235",
+          "target": "21235",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "1",
+          "target": "1",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "20",
+          "target": "20",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "full_name",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "full_name",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "full_name",
+          "status": "PASS",
+          "source": 1679,
+          "target": 1679,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "pan_number",
+          "status": "PASS",
+          "source": 103,
+          "target": 103,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "pan_number",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "pan_number",
+          "status": "PASS",
+          "source": 1897,
+          "target": 1897,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "phone",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "phone",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "phone",
+          "status": "PASS",
+          "source": 2000,
+          "target": 2000,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "alt_phone",
+          "status": "FAIL",
+          "source": 770,
+          "target": 1286,
+          "detail": "source 770 != target 1286"
+        },
+        {
+          "check": "empty_string_count",
+          "column": "alt_phone",
+          "status": "FAIL",
+          "source": 516,
+          "target": 0,
+          "detail": "source 516 != target 0"
+        },
+        {
+          "check": "distinct_count",
+          "column": "alt_phone",
+          "status": "FAIL",
+          "source": 715,
+          "target": 714,
+          "detail": "source 715 != target 714"
+        },
+        {
+          "check": "null_count",
+          "column": "email",
+          "status": "FAIL",
+          "source": 290,
+          "target": 471,
+          "detail": "source 290 != target 471"
+        },
+        {
+          "check": "empty_string_count",
+          "column": "email",
+          "status": "FAIL",
+          "source": 181,
+          "target": 0,
+          "detail": "source 181 != target 0"
+        },
+        {
+          "check": "distinct_count",
+          "column": "email",
+          "status": "FAIL",
+          "source": 1527,
+          "target": 1526,
+          "detail": "source 1527 != target 1526"
+        },
+        {
+          "check": "null_count",
+          "column": "address",
+          "status": "FAIL",
+          "source": 79,
+          "target": 167,
+          "detail": "source 79 != target 167"
+        },
+        {
+          "check": "empty_string_count",
+          "column": "address",
+          "status": "FAIL",
+          "source": 88,
+          "target": 0,
+          "detail": "source 88 != target 0"
+        },
+        {
+          "check": "distinct_count",
+          "column": "address",
+          "status": "FAIL",
+          "source": 1834,
+          "target": 1833,
+          "detail": "source 1834 != target 1833"
+        },
+        {
+          "check": "null_count",
+          "column": "occupation",
+          "status": "FAIL",
+          "source": 211,
+          "target": 415,
+          "detail": "source 211 != target 415"
+        },
+        {
+          "check": "empty_string_count",
+          "column": "occupation",
+          "status": "FAIL",
+          "source": 204,
+          "target": 0,
+          "detail": "source 204 != target 0"
+        },
+        {
+          "check": "distinct_count",
+          "column": "occupation",
+          "status": "FAIL",
+          "source": 7,
+          "target": 6,
+          "detail": "source 7 != target 6"
+        },
+        {
+          "check": "null_count",
+          "column": "monthly_income",
+          "status": "PASS",
+          "source": 166,
+          "target": 166,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "monthly_income",
+          "status": "PASS",
+          "source": 1833,
+          "target": 1833,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "monthly_income",
+          "status": "FAIL",
+          "source": "532921337.0801",
+          "target": "532921337.08010095",
+          "detail": "values differ (exact comparison)"
+        },
+        {
+          "check": "min",
+          "column": "monthly_income",
+          "status": "PASS",
+          "source": "12036.6896",
+          "target": "12036.6896",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "monthly_income",
+          "status": "PASS",
+          "source": "99999999.9999",
+          "target": "99999999.9999",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "date_of_birth",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "date_of_birth",
+          "status": "PASS",
+          "source": 1883,
+          "target": 1883,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "created_at",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "created_at",
+          "status": "PASS",
+          "source": 2000,
+          "target": 2000,
+          "detail": ""
+        },
+        {
+          "check": "row_fingerprint",
+          "column": null,
+          "status": "FAIL",
+          "source": 2000,
+          "target": 2000,
+          "detail": "838 mismatched, 0 missing, 0 extra rows"
+        },
+        {
+          "check": "partitioning",
+          "column": null,
+          "status": "PASS",
+          "source": null,
+          "target": null,
+          "detail": ""
+        },
+        {
+          "check": "clustering",
+          "column": null,
+          "status": "PASS",
+          "source": [],
+          "target": [],
+          "detail": ""
+        }
+      ],
+      "status": "FAIL",
+      "check_counts": {
+        "PASS": 41,
+        "INFO": 0,
+        "WARN": 0,
+        "FAIL": 16
+      }
+    },
+    {
+      "source_table": "loan_events",
+      "target_table": "naive_loan_events",
+      "table_id": "your-gcp-project.migrated_lending.naive_loan_events",
+      "primary_key": [
+        "event_id"
+      ],
+      "fingerprint": {
+        "source_rows": 10000,
+        "target_rows": 10000,
+        "matching": 10000,
+        "mismatched": 0,
+        "known_limitation_rows": 0,
+        "missing_in_target": 0,
+        "extra_in_target": 0,
+        "column_mismatch_counts": {},
+        "known_limitation_cells": {},
+        "examples": [],
+        "raw_companions_exact": {}
+      },
+      "checks": [
+        {
+          "check": "schema",
+          "column": null,
+          "status": "PASS",
+          "source": null,
+          "target": null,
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "event_id",
+          "status": "PASS",
+          "source": "bigint",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "integer",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "event_type",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "event_data",
+          "status": "FAIL",
+          "source": "jsonb",
+          "target": "STRING",
+          "detail": "downgrade: jsonb requires JSON"
+        },
+        {
+          "check": "type_fidelity",
+          "column": "created_at",
+          "status": "FAIL",
+          "source": "timestamp without time zone",
+          "target": "STRING",
+          "detail": "downgrade: timestamp without time zone requires DATETIME or TIMESTAMP"
+        },
+        {
+          "check": "row_count",
+          "column": null,
+          "status": "PASS",
+          "source": 10000,
+          "target": 10000,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "event_id",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "event_id",
+          "status": "PASS",
+          "source": 10000,
+          "target": 10000,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "event_id",
+          "status": "PASS",
+          "source": "50005000",
+          "target": "50005000",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "event_id",
+          "status": "PASS",
+          "source": "1",
+          "target": "1",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "event_id",
+          "status": "PASS",
+          "source": "10000",
+          "target": "10000",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": 5000,
+          "target": 5000,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "25062646",
+          "target": "25062646",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "1",
+          "target": "1",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "5000",
+          "target": "5000",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "event_type",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "event_type",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "event_type",
+          "status": "PASS",
+          "source": 5,
+          "target": 5,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "event_data",
+          "status": "PASS",
+          "source": 300,
+          "target": 300,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "event_data",
+          "status": "PASS",
+          "source": 7217,
+          "target": 7217,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "created_at",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "created_at",
+          "status": "PASS",
+          "source": 10000,
+          "target": 10000,
+          "detail": ""
+        },
+        {
+          "check": "row_fingerprint",
+          "column": null,
+          "status": "PASS",
+          "source": 10000,
+          "target": 10000,
+          "detail": "all 10000 rows match"
+        },
+        {
+          "check": "partitioning",
+          "column": null,
+          "status": "PASS",
+          "source": null,
+          "target": null,
+          "detail": ""
+        },
+        {
+          "check": "clustering",
+          "column": null,
+          "status": "PASS",
+          "source": [],
+          "target": [],
+          "detail": ""
+        }
+      ],
+      "status": "FAIL",
+      "check_counts": {
+        "PASS": 25,
+        "INFO": 0,
+        "WARN": 0,
+        "FAIL": 2
+      }
+    },
+    {
+      "source_table": "loans",
+      "target_table": "naive_loans",
+      "table_id": "your-gcp-project.migrated_lending.naive_loans",
+      "primary_key": [
+        "loan_id"
+      ],
+      "fingerprint": {
+        "source_rows": 5000,
+        "target_rows": 5000,
+        "matching": 795,
+        "mismatched": 4205,
+        "known_limitation_rows": 0,
+        "missing_in_target": 0,
+        "extra_in_target": 0,
+        "column_mismatch_counts": {
+          "tags": 3988,
+          "remarks": 1004
+        },
+        "known_limitation_cells": {},
+        "examples": [
+          {
+            "primary_key": {
+              "loan_id": "1"
+            },
+            "column": "tags",
+            "source_value": "[\"ಗ್ರಾಮೀಣ\", \"women's scheme\", \"rural\"]",
+            "target_value": "\"ಗ್ರಾಮೀಣ,women's scheme,rural\"",
+            "known_limitation": null
+          },
+          {
+            "primary_key": {
+              "loan_id": "2"
+            },
+            "column": "tags",
+            "source_value": "[\"ಗ್ರಾಮೀಣ\", \"gold, 22k\", \"NPA-watch\"]",
+            "target_value": "\"ಗ್ರಾಮೀಣ,gold, 22k,NPA-watch\"",
+            "known_limitation": null
+          },
+          {
+            "primary_key": {
+              "loan_id": "2"
+            },
+            "column": "remarks",
+            "source_value": "",
+            "target_value": null,
+            "known_limitation": null
+          },
+          {
+            "primary_key": {
+              "loan_id": "3"
+            },
+            "column": "tags",
+            "source_value": "[\"rural\", \"ಗ್ರಾಮೀಣ\"]",
+            "target_value": "\"rural,ಗ್ರಾಮೀಣ\"",
+            "known_limitation": null
+          },
+          {
+            "primary_key": {
+              "loan_id": "5"
+            },
+            "column": "tags",
+            "source_value": "[\"top-up\", \"women's scheme\", \"rural\"]",
+            "target_value": "\"top-up,women's scheme,rural\"",
+            "known_limitation": null
+          }
+        ],
+        "raw_companions_exact": {}
+      },
+      "checks": [
+        {
+          "check": "schema",
+          "column": null,
+          "status": "PASS",
+          "source": null,
+          "target": null,
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "integer",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": "integer",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "integer",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "loan_type",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "principal_amount",
+          "status": "FAIL",
+          "source": "numeric(14,4)",
+          "target": "FLOAT64",
+          "detail": "downgrade: numeric(14,4) requires BIGNUMERIC or NUMERIC"
+        },
+        {
+          "check": "type_fidelity",
+          "column": "interest_rate",
+          "status": "FAIL",
+          "source": "numeric(6,3)",
+          "target": "FLOAT64",
+          "detail": "downgrade: numeric(6,3) requires BIGNUMERIC or NUMERIC"
+        },
+        {
+          "check": "type_fidelity",
+          "column": "tenure_months",
+          "status": "PASS",
+          "source": "integer",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "emi_amount",
+          "status": "FAIL",
+          "source": "numeric(14,4)",
+          "target": "FLOAT64",
+          "detail": "downgrade: numeric(14,4) requires BIGNUMERIC or NUMERIC"
+        },
+        {
+          "check": "type_fidelity",
+          "column": "status",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "disbursed_at",
+          "status": "FAIL",
+          "source": "timestamp without time zone",
+          "target": "STRING",
+          "detail": "downgrade: timestamp without time zone requires DATETIME or TIMESTAMP"
+        },
+        {
+          "check": "type_fidelity",
+          "column": "next_due_date",
+          "status": "PASS",
+          "source": "date",
+          "target": "DATE",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "tags",
+          "status": "FAIL",
+          "source": "text[]",
+          "target": "STRING",
+          "detail": "downgrade: text[] requires ARRAY<STRING>"
+        },
+        {
+          "check": "type_fidelity",
+          "column": "remarks",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "created_at",
+          "status": "FAIL",
+          "source": "timestamp without time zone",
+          "target": "STRING",
+          "detail": "downgrade: timestamp without time zone requires DATETIME or TIMESTAMP"
+        },
+        {
+          "check": "row_count",
+          "column": null,
+          "status": "PASS",
+          "source": 5000,
+          "target": 5000,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": 5000,
+          "target": 5000,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "12502500",
+          "target": "12502500",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "1",
+          "target": "1",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "5000",
+          "target": "5000",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": 1844,
+          "target": 1844,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": "4991299",
+          "target": "4991299",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": "1",
+          "target": "1",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": "2000",
+          "target": "2000",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": 20,
+          "target": 20,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "53414",
+          "target": "53414",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "1",
+          "target": "1",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "20",
+          "target": "20",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "loan_type",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "loan_type",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "loan_type",
+          "status": "PASS",
+          "source": 6,
+          "target": 6,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "principal_amount",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "principal_amount",
+          "status": "PASS",
+          "source": 4997,
+          "target": 4997,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "principal_amount",
+          "status": "FAIL",
+          "source": "26902369751.7884",
+          "target": "26902369751.78846",
+          "detail": "values differ (exact comparison)"
+        },
+        {
+          "check": "min",
+          "column": "principal_amount",
+          "status": "PASS",
+          "source": "10034.758",
+          "target": "10034.758",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "principal_amount",
+          "status": "PASS",
+          "source": "9999999999.9999",
+          "target": "9999999999.9999",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "interest_rate",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "interest_rate",
+          "status": "PASS",
+          "source": 4345,
+          "target": 4345,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "interest_rate",
+          "status": "FAIL",
+          "source": "84239.363",
+          "target": "84239.36300000013",
+          "detail": "values differ (exact comparison)"
+        },
+        {
+          "check": "min",
+          "column": "interest_rate",
+          "status": "PASS",
+          "source": "8.502",
+          "target": "8.502",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "interest_rate",
+          "status": "PASS",
+          "source": "27.997",
+          "target": "27.997",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "tenure_months",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "tenure_months",
+          "status": "PASS",
+          "source": 7,
+          "target": 7,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "tenure_months",
+          "status": "PASS",
+          "source": "146946",
+          "target": "146946",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "tenure_months",
+          "status": "PASS",
+          "source": "6",
+          "target": "6",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "tenure_months",
+          "status": "PASS",
+          "source": "60",
+          "target": "60",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "emi_amount",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "emi_amount",
+          "status": "PASS",
+          "source": 5000,
+          "target": 5000,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "emi_amount",
+          "status": "FAIL",
+          "source": "1664400921.9933",
+          "target": "1664400921.9933012",
+          "detail": "values differ (exact comparison)"
+        },
+        {
+          "check": "min",
+          "column": "emi_amount",
+          "status": "PASS",
+          "source": "234.2497",
+          "target": "234.2497",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "emi_amount",
+          "status": "PASS",
+          "source": "907923878.8287",
+          "target": "907923878.8287",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "status",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "status",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "status",
+          "status": "PASS",
+          "source": 4,
+          "target": 4,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "disbursed_at",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "disbursed_at",
+          "status": "PASS",
+          "source": 5000,
+          "target": 5000,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "next_due_date",
+          "status": "PASS",
+          "source": 1528,
+          "target": 1528,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "next_due_date",
+          "status": "PASS",
+          "source": 210,
+          "target": 210,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "tags",
+          "status": "PASS",
+          "source": 1012,
+          "target": 1012,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "tags",
+          "status": "PASS",
+          "source": 535,
+          "target": 535,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "remarks",
+          "status": "FAIL",
+          "source": 2011,
+          "target": 3015,
+          "detail": "source 2011 != target 3015"
+        },
+        {
+          "check": "empty_string_count",
+          "column": "remarks",
+          "status": "FAIL",
+          "source": 1004,
+          "target": 0,
+          "detail": "source 1004 != target 0"
+        },
+        {
+          "check": "distinct_count",
+          "column": "remarks",
+          "status": "FAIL",
+          "source": 6,
+          "target": 5,
+          "detail": "source 6 != target 5"
+        },
+        {
+          "check": "null_count",
+          "column": "created_at",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "created_at",
+          "status": "PASS",
+          "source": 5000,
+          "target": 5000,
+          "detail": ""
+        },
+        {
+          "check": "row_fingerprint",
+          "column": null,
+          "status": "FAIL",
+          "source": 5000,
+          "target": 5000,
+          "detail": "4205 mismatched, 0 missing, 0 extra rows"
+        },
+        {
+          "check": "partitioning",
+          "column": null,
+          "status": "PASS",
+          "source": null,
+          "target": null,
+          "detail": ""
+        },
+        {
+          "check": "clustering",
+          "column": null,
+          "status": "PASS",
+          "source": [],
+          "target": [],
+          "detail": ""
+        }
+      ],
+      "status": "FAIL",
+      "check_counts": {
+        "PASS": 58,
+        "INFO": 0,
+        "WARN": 0,
+        "FAIL": 13
+      }
+    },
+    {
+      "source_table": "payments",
+      "target_table": "naive_payments",
+      "table_id": "your-gcp-project.migrated_lending.naive_payments",
+      "primary_key": [
+        "payment_id"
+      ],
+      "fingerprint": {
+        "source_rows": 20000,
+        "target_rows": 20000,
+        "matching": 17508,
+        "mismatched": 2492,
+        "known_limitation_rows": 0,
+        "missing_in_target": 0,
+        "extra_in_target": 0,
+        "column_mismatch_counts": {
+          "reference_no": 2492
+        },
+        "known_limitation_cells": {},
+        "examples": [
+          {
+            "primary_key": {
+              "payment_id": "6"
+            },
+            "column": "reference_no",
+            "source_value": "",
+            "target_value": null,
+            "known_limitation": null
+          },
+          {
+            "primary_key": {
+              "payment_id": "27"
+            },
+            "column": "reference_no",
+            "source_value": "",
+            "target_value": null,
+            "known_limitation": null
+          },
+          {
+            "primary_key": {
+              "payment_id": "30"
+            },
+            "column": "reference_no",
+            "source_value": "",
+            "target_value": null,
+            "known_limitation": null
+          },
+          {
+            "primary_key": {
+              "payment_id": "31"
+            },
+            "column": "reference_no",
+            "source_value": "",
+            "target_value": null,
+            "known_limitation": null
+          },
+          {
+            "primary_key": {
+              "payment_id": "37"
+            },
+            "column": "reference_no",
+            "source_value": "",
+            "target_value": null,
+            "known_limitation": null
+          }
+        ],
+        "raw_companions_exact": {}
+      },
+      "checks": [
+        {
+          "check": "schema",
+          "column": null,
+          "status": "PASS",
+          "source": null,
+          "target": null,
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "payment_id",
+          "status": "PASS",
+          "source": "bigint",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "integer",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "amount",
+          "status": "FAIL",
+          "source": "numeric(14,4)",
+          "target": "FLOAT64",
+          "detail": "downgrade: numeric(14,4) requires BIGNUMERIC or NUMERIC"
+        },
+        {
+          "check": "type_fidelity",
+          "column": "payment_time",
+          "status": "FAIL",
+          "source": "timestamp without time zone",
+          "target": "STRING",
+          "detail": "downgrade: timestamp without time zone requires DATETIME or TIMESTAMP"
+        },
+        {
+          "check": "type_fidelity",
+          "column": "payment_mode",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "status",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "reference_no",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "created_at",
+          "status": "FAIL",
+          "source": "timestamp without time zone",
+          "target": "STRING",
+          "detail": "downgrade: timestamp without time zone requires DATETIME or TIMESTAMP"
+        },
+        {
+          "check": "row_count",
+          "column": null,
+          "status": "PASS",
+          "source": 20000,
+          "target": 20000,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "payment_id",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "payment_id",
+          "status": "PASS",
+          "source": 20000,
+          "target": 20000,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "payment_id",
+          "status": "PASS",
+          "source": "200010000",
+          "target": "200010000",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "payment_id",
+          "status": "PASS",
+          "source": "1",
+          "target": "1",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "payment_id",
+          "status": "PASS",
+          "source": "20000",
+          "target": "20000",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": 4902,
+          "target": 4902,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "49995050",
+          "target": "49995050",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "1",
+          "target": "1",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "5000",
+          "target": "5000",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "amount",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "amount",
+          "status": "PASS",
+          "source": 12601,
+          "target": 12601,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "amount",
+          "status": "FAIL",
+          "source": "7334825378.0103",
+          "target": "7334825378.010296",
+          "detail": "values differ (exact comparison)"
+        },
+        {
+          "check": "min",
+          "column": "amount",
+          "status": "PASS",
+          "source": "100.4206",
+          "target": "100.4206",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "amount",
+          "status": "PASS",
+          "source": "907923878.8287",
+          "target": "907923878.8287",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "payment_time",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "payment_time",
+          "status": "PASS",
+          "source": 20000,
+          "target": 20000,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "payment_mode",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "payment_mode",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "payment_mode",
+          "status": "PASS",
+          "source": 6,
+          "target": 6,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "status",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "status",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "status",
+          "status": "PASS",
+          "source": 3,
+          "target": 3,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "reference_no",
+          "status": "FAIL",
+          "source": 2537,
+          "target": 5029,
+          "detail": "source 2537 != target 5029"
+        },
+        {
+          "check": "empty_string_count",
+          "column": "reference_no",
+          "status": "FAIL",
+          "source": 2492,
+          "target": 0,
+          "detail": "source 2492 != target 0"
+        },
+        {
+          "check": "distinct_count",
+          "column": "reference_no",
+          "status": "FAIL",
+          "source": 14972,
+          "target": 14971,
+          "detail": "source 14972 != target 14971"
+        },
+        {
+          "check": "null_count",
+          "column": "created_at",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "created_at",
+          "status": "PASS",
+          "source": 20000,
+          "target": 20000,
+          "detail": ""
+        },
+        {
+          "check": "row_fingerprint",
+          "column": null,
+          "status": "FAIL",
+          "source": 20000,
+          "target": 20000,
+          "detail": "2492 mismatched, 0 missing, 0 extra rows"
+        },
+        {
+          "check": "partitioning",
+          "column": null,
+          "status": "PASS",
+          "source": null,
+          "target": null,
+          "detail": ""
+        },
+        {
+          "check": "clustering",
+          "column": null,
+          "status": "PASS",
+          "source": [],
+          "target": [],
+          "detail": ""
+        }
+      ],
+      "status": "FAIL",
+      "check_counts": {
+        "PASS": 33,
+        "INFO": 0,
+        "WARN": 0,
+        "FAIL": 8
+      }
+    }
+  ],
+  "ai_explanations": {
+    "label": "AI-generated by Gemini - advisory only; does not affect any status",
+    "model": "gemini-3.5-flash-lite",
+    "items": [
+      {
+        "finding_id": "F1",
+        "table": "branches",
+        "check": "type_fidelity",
+        "column": "created_at",
+        "status": "FAIL",
+        "explanation": "The source column uses PostgreSQL timestamp without time zone, but the target uses STRING, causing a type mismatch. This happens when timestamp values are incorrectly loaded as plain strings.",
+        "suggested_fix": "Alter the target column data type to DATETIME or TIMESTAMP."
+      },
+      {
+        "finding_id": "F2",
+        "table": "branches",
+        "check": "null_count",
+        "column": "ifsc_code",
+        "status": "FAIL",
+        "explanation": "Null counts differ because empty strings in the source were likely converted to NULLs in the target. This inflates the target null count.",
+        "suggested_fix": "Preserve empty strings during ingestion instead of coercing them to NULL."
+      },
+      {
+        "finding_id": "F3",
+        "table": "branches",
+        "check": "empty_string_count",
+        "column": "ifsc_code",
+        "status": "FAIL",
+        "explanation": "Empty string counts do not match because the target contains zero empty strings due to automated null-coercion. Source strings are not being mapped correctly.",
+        "suggested_fix": "Adjust the loading pipeline to retain empty strings without turning them into NULL."
+      },
+      {
+        "finding_id": "F4",
+        "table": "branches",
+        "check": "distinct_count",
+        "column": "ifsc_code",
+        "status": "FAIL",
+        "explanation": "Distinct counts differ because empty strings in the source collapsed into NULLs in the target, reducing the unique value count. This is a side-effect of improper null handling.",
+        "suggested_fix": "Ensure empty strings are loaded literally so distinct counts match the source."
+      },
+      {
+        "finding_id": "F5",
+        "table": "branches",
+        "check": "null_count",
+        "column": "manager_name",
+        "status": "FAIL",
+        "explanation": "Null count discrepancies occur because source empty strings were imported as NULLs in the target. This shifts counts between nulls and populated values.",
+        "suggested_fix": "Modify the pipeline settings to prevent empty strings from becoming NULL."
+      },
+      {
+        "finding_id": "F6",
+        "table": "branches",
+        "check": "empty_string_count",
+        "column": "manager_name",
+        "status": "FAIL",
+        "explanation": "The target has zero empty strings because they were converted to NULLs during migration. This causes a direct mismatch with the source count.",
+        "suggested_fix": "Keep empty strings as empty strings in the target table."
+      },
+      {
+        "finding_id": "F7",
+        "table": "branches",
+        "check": "distinct_count",
+        "column": "manager_name",
+        "status": "FAIL",
+        "explanation": "Distinct value counts differ because an empty string in the source became a NULL in the target. This alters the set of unique values.",
+        "suggested_fix": "Update the ingestion script to treat empty strings and NULLs distinctly."
+      },
+      {
+        "finding_id": "F8",
+        "table": "branches",
+        "check": "row_fingerprint",
+        "column": null,
+        "status": "FAIL",
+        "explanation": "Row fingerprinting failed because empty string values in source columns were loaded as NULLs in the target. This causes multi-column row comparisons to fail.",
+        "suggested_fix": "Standardize how empty strings and NULLs are handled across source and target systems."
+      },
+      {
+        "finding_id": "F9",
+        "table": "customers",
+        "check": "type_fidelity",
+        "column": "monthly_income",
+        "status": "FAIL",
+        "explanation": "The source uses exact numeric types while the target uses FLOAT64, which can introduce precision loss. This happens due to automatic type degradation during migration.",
+        "suggested_fix": "Change the target column type to NUMERIC or BIGNUMERIC to preserve exact precision."
+      },
+      {
+        "finding_id": "F10",
+        "table": "customers",
+        "check": "type_fidelity",
+        "column": "created_at",
+        "status": "FAIL",
+        "explanation": "The source timestamp was mapped to a STRING target type. This loses native date-time querying capabilities.",
+        "suggested_fix": "Cast or migrate the target column to DATETIME or TIMESTAMP."
+      },
+      {
+        "finding_id": "F11",
+        "table": "customers",
+        "check": "null_count",
+        "column": "alt_phone",
+        "status": "FAIL",
+        "explanation": "Target null count is higher because empty strings from the source were converted to NULLs during migration. This increases the total null count.",
+        "suggested_fix": "Ensure empty strings are loaded as-is rather than coerced to NULL."
+      },
+      {
+        "finding_id": "F12",
+        "table": "customers",
+        "check": "empty_string_count",
+        "column": "alt_phone",
+        "status": "FAIL",
+        "explanation": "Empty string counts do not match because the target loader transformed all empty strings into NULLs. This drops the target empty string count to zero.",
+        "suggested_fix": "Disable automatic empty-to-null conversion in your ETL pipeline."
+      },
+      {
+        "finding_id": "F13",
+        "table": "customers",
+        "check": "distinct_count",
+        "column": "alt_phone",
+        "status": "FAIL",
+        "explanation": "Distinct counts diverge because empty strings were mapped to NULLs, altering the distinct value set. This causes a slight mismatch in unique values.",
+        "suggested_fix": "Preserve empty strings during migration to maintain accurate distinct counts."
+      },
+      {
+        "finding_id": "F14",
+        "table": "customers",
+        "check": "null_count",
+        "column": "email",
+        "status": "FAIL",
+        "explanation": "Null counts mismatch because the target treats source empty strings as NULL values. This artificially inflates the target null count.",
+        "suggested_fix": "Configure the loader to keep empty strings separate from NULLs."
+      },
+      {
+        "finding_id": "F15",
+        "table": "customers",
+        "check": "empty_string_count",
+        "column": "email",
+        "status": "FAIL",
+        "explanation": "The target shows zero empty strings because they were all cast to NULLs. Source data contains valid empty strings that were lost.",
+        "suggested_fix": "Modify the migration script to retain empty string values."
+      },
+      {
+        "finding_id": "F16",
+        "table": "customers",
+        "check": "distinct_count",
+        "column": "email",
+        "status": "FAIL",
+        "explanation": "Distinct counts differ slightly due to empty strings being converted into NULLs. This reduces the number of unique entries in the target.",
+        "suggested_fix": "Map empty strings literally to ensure distinct counts match."
+      },
+      {
+        "finding_id": "F17",
+        "table": "customers",
+        "check": "null_count",
+        "column": "address",
+        "status": "FAIL",
+        "explanation": "Target null count exceeds source null count because empty strings were converted to NULLs. This causes a discrepancy in missing data metrics.",
+        "suggested_fix": "Prevent the ETL tool from coercing empty strings into NULL values."
+      },
+      {
+        "finding_id": "F18",
+        "table": "customers",
+        "check": "empty_string_count",
+        "column": "address",
+        "status": "FAIL",
+        "explanation": "Empty string count is zero in the target because they were all loaded as NULLs. Source data clearly contains empty strings.",
+        "suggested_fix": "Update the ingestion mapping to preserve empty strings."
+      },
+      {
+        "finding_id": "F19",
+        "table": "customers",
+        "check": "distinct_count",
+        "column": "address",
+        "status": "FAIL",
+        "explanation": "Distinct counts differ because empty strings became NULLs in the target table. This alters the pool of unique values.",
+        "suggested_fix": "Ensure empty strings are not translated to NULL during migration."
+      },
+      {
+        "finding_id": "F20",
+        "table": "customers",
+        "check": "null_count",
+        "column": "occupation",
+        "status": "FAIL",
+        "explanation": "Null counts do not match because source empty strings were migrated as NULL values. This increases the target null count.",
+        "suggested_fix": "Maintain original empty strings without converting them to NULLs."
+      },
+      {
+        "finding_id": "F21",
+        "table": "customers",
+        "check": "empty_string_count",
+        "column": "occupation",
+        "status": "FAIL",
+        "explanation": "The target contains zero empty strings because the migration process converted them to NULLs. This causes a direct mismatch.",
+        "suggested_fix": "Adjust the pipeline configuration to load empty strings as-is."
+      },
+      {
+        "finding_id": "F22",
+        "table": "customers",
+        "check": "distinct_count",
+        "column": "occupation",
+        "status": "FAIL",
+        "explanation": "Distinct count is lower in the target because empty strings were coerced into NULLs. This reduces the number of distinct values.",
+        "suggested_fix": "Preserve empty strings to keep distinct counts aligned with the source."
+      },
+      {
+        "finding_id": "F23",
+        "table": "customers",
+        "check": "sum",
+        "column": "monthly_income",
+        "status": "FAIL",
+        "explanation": "The sum check failed due to floating-point rounding differences between exact NUMERIC and approximate FLOAT64 types. This is caused by type degradation during migration.",
+        "suggested_fix": "Use BIGNUMERIC or NUMERIC for monetary or precision-critical columns."
+      },
+      {
+        "finding_id": "F24",
+        "table": "customers",
+        "check": "row_fingerprint",
+        "column": null,
+        "status": "FAIL",
+        "explanation": "Row fingerprints failed because empty strings in the source were loaded as NULLs in the target. This causes multi-column comparisons to fail across many rows.",
+        "suggested_fix": "Ensure uniform handling of empty strings and NULL values during data loading."
+      },
+      {
+        "finding_id": "F25",
+        "table": "loan_events",
+        "check": "type_fidelity",
+        "column": "event_data",
+        "status": "FAIL",
+        "explanation": "The source JSONB column was mapped to a STRING target type, losing native JSON capabilities. This happens due to a schema mapping limitation.",
+        "suggested_fix": "Alter the target column type to JSON."
+      },
+      {
+        "finding_id": "F26",
+        "table": "loan_events",
+        "check": "type_fidelity",
+        "column": "created_at",
+        "status": "FAIL",
+        "explanation": "The source timestamp without time zone was mapped to a STRING type. This prevents proper temporal querying.",
+        "suggested_fix": "Migrate the target column to DATETIME or TIMESTAMP."
+      },
+      {
+        "finding_id": "F27",
+        "table": "loans",
+        "check": "type_fidelity",
+        "column": "principal_amount",
+        "status": "FAIL",
+        "explanation": "Exact numeric precision was lost because the source NUMERIC type was mapped to FLOAT64. This is a type downgrade issue.",
+        "suggested_fix": "Use BIGNUMERIC or NUMERIC for the target column."
+      },
+      {
+        "finding_id": "F28",
+        "table": "loans",
+        "check": "type_fidelity",
+        "column": "interest_rate",
+        "status": "FAIL",
+        "explanation": "The source NUMERIC type was converted to FLOAT64, leading to potential precision issues. This occurs due to default type mapping choices.",
+        "suggested_fix": "Map the target column to NUMERIC or BIGNUMERIC."
+      },
+      {
+        "finding_id": "F29",
+        "table": "loans",
+        "check": "type_fidelity",
+        "column": "emi_amount",
+        "status": "FAIL",
+        "explanation": "Precision was lost when migrating from exact NUMERIC to approximate FLOAT64. This causes numerical discrepancies.",
+        "suggested_fix": "Change the target column type to NUMERIC or BIGNUMERIC."
+      },
+      {
+        "finding_id": "F30",
+        "table": "loans",
+        "check": "type_fidelity",
+        "column": "disbursed_at",
+        "status": "FAIL",
+        "explanation": "Timestamp column was mapped to STRING instead of native date types. This restricts time-based operations.",
+        "suggested_fix": "Update the target schema to use DATETIME or TIMESTAMP."
+      },
+      {
+        "finding_id": "F31",
+        "table": "loans",
+        "check": "type_fidelity",
+        "column": "tags",
+        "status": "FAIL",
+        "explanation": "The source array column (text[]) was flattened or mapped to a STRING type. This occurs because arrays require explicit ARRAY types in the target.",
+        "suggested_fix": "Migrate the target column to ARRAY<STRING>."
+      },
+      {
+        "finding_id": "F32",
+        "table": "loans",
+        "check": "type_fidelity",
+        "column": "created_at",
+        "status": "FAIL",
+        "explanation": "Timestamp without time zone was incorrectly mapped to STRING. This loses native date-time features.",
+        "suggested_fix": "Change the target schema type to DATETIME or TIMESTAMP."
+      },
+      {
+        "finding_id": "F33",
+        "table": "loans",
+        "check": "sum",
+        "column": "principal_amount",
+        "status": "FAIL",
+        "explanation": "Sum comparison failed because the underlying column was downgraded to FLOAT64, introducing floating-point inaccuracies. This is a precision mismatch.",
+        "suggested_fix": "Use NUMERIC or BIGNUMERIC for financial sum calculations."
+      },
+      {
+        "finding_id": "F34",
+        "table": "loans",
+        "check": "sum",
+        "column": "interest_rate",
+        "status": "FAIL",
+        "explanation": "Floating-point rounding differences caused the sum to mismatch due to using FLOAT64 instead of exact NUMERIC. This is a known consequence of type degradation.",
+        "suggested_fix": "Switch the target column type to NUMERIC."
+      },
+      {
+        "finding_id": "F35",
+        "table": "loans",
+        "check": "sum",
+        "column": "emi_amount",
+        "status": "FAIL",
+        "explanation": "The sum differs slightly due to floating-point representation of FLOAT64 versus exact NUMERIC in the source. This is a precision artifact.",
+        "suggested_fix": "Recreate the target column using NUMERIC or BIGNUMERIC."
+      },
+      {
+        "finding_id": "F36",
+        "table": "loans",
+        "check": "null_count",
+        "column": "remarks",
+        "status": "FAIL",
+        "explanation": "Null counts differ because source empty strings were converted to NULLs in the target. This inflates the target null count.",
+        "suggested_fix": "Keep empty strings as empty strings during data ingestion."
+      },
+      {
+        "finding_id": "F37",
+        "table": "loans",
+        "check": "empty_string_count",
+        "column": "remarks",
+        "status": "FAIL",
+        "explanation": "Target empty string count is zero because all empty strings were cast to NULLs. This directly conflicts with the source data.",
+        "suggested_fix": "Disable automatic conversion of empty strings to NULLs in your pipeline."
+      },
+      {
+        "finding_id": "F38",
+        "table": "loans",
+        "check": "distinct_count",
+        "column": "remarks",
+        "status": "FAIL",
+        "explanation": "Distinct counts mismatch because source empty strings became NULLs in the target. This alters the unique value set.",
+        "suggested_fix": "Ensure empty strings are preserved to match source distinct counts."
+      },
+      {
+        "finding_id": "F39",
+        "table": "loans",
+        "check": "row_fingerprint",
+        "column": null,
+        "status": "FAIL",
+        "explanation": "Row fingerprints failed because array types were serialized into strings and empty strings were converted to NULLs. This causes widespread comparison mismatches.",
+        "suggested_fix": "Use proper ARRAY types and preserve empty strings during migration."
+      },
+      {
+        "finding_id": "F40",
+        "table": "payments",
+        "check": "type_fidelity",
+        "column": "amount",
+        "status": "FAIL",
+        "explanation": "Exact NUMERIC data was migrated to FLOAT64, causing precision degradation. This is a common schema mapping issue.",
+        "suggested_fix": "Migrate the target column to NUMERIC or BIGNUMERIC."
+      },
+      {
+        "finding_id": "F41",
+        "table": "payments",
+        "check": "type_fidelity",
+        "column": "payment_time",
+        "status": "FAIL",
+        "explanation": "Timestamp column was loaded as a STRING instead of a native temporal type. This limits date operations.",
+        "suggested_fix": "Change the target column type to DATETIME or TIMESTAMP."
+      },
+      {
+        "finding_id": "F42",
+        "table": "payments",
+        "check": "type_fidelity",
+        "column": "created_at",
+        "status": "FAIL",
+        "explanation": "The source timestamp was mapped to a STRING type. This causes a loss of native time fidelity.",
+        "suggested_fix": "Update the target schema to DATETIME or TIMESTAMP."
+      },
+      {
+        "finding_id": "F43",
+        "table": "payments",
+        "check": "sum",
+        "column": "amount",
+        "status": "FAIL",
+        "explanation": "Sum comparison failed due to floating-point rounding differences between exact NUMERIC and FLOAT64. This is caused by type downgrading.",
+        "suggested_fix": "Use NUMERIC or BIGNUMERIC for exact sum matching."
+      },
+      {
+        "finding_id": "F44",
+        "table": "payments",
+        "check": "null_count",
+        "column": "reference_no",
+        "status": "FAIL",
+        "explanation": "Null counts do not match because source empty strings were converted to NULLs in the target. This increases the target null count.",
+        "suggested_fix": "Prevent the pipeline from coercing empty strings into NULLs."
+      },
+      {
+        "finding_id": "F45",
+        "table": "payments",
+        "check": "empty_string_count",
+        "column": "reference_no",
+        "status": "FAIL",
+        "explanation": "Target empty string count is zero because the ingestion process turned them into NULLs. This is a data loading artifact.",
+        "suggested_fix": "Configure your ETL tool to load empty strings literally."
+      },
+      {
+        "finding_id": "F46",
+        "table": "payments",
+        "check": "distinct_count",
+        "column": "reference_no",
+        "status": "FAIL",
+        "explanation": "Distinct counts differ slightly because empty strings were mapped to NULLs in the target. This changes the unique value count.",
+        "suggested_fix": "Preserve empty strings to maintain accurate distinct counts."
+      },
+      {
+        "finding_id": "F47",
+        "table": "payments",
+        "check": "row_fingerprint",
+        "column": null,
+        "status": "FAIL",
+        "explanation": "Row fingerprints failed because empty strings in the source were loaded as NULLs in the target. This causes row-level hash mismatches.",
+        "suggested_fix": "Ensure consistent handling of empty strings and NULLs across both databases."
+      }
+    ]
+  },
+  "query_parity": {
+    "model_used_for_translation": "gemini-3.5-flash-lite",
+    "note": "SQL was translated by Gemini; PASS/FAIL comes only from deterministic result comparison. NOT_RUN = no translation available (Gemini unavailable and no previous translation to reuse).",
+    "summary": {
+      "queries": 3,
+      "passed": 0,
+      "failed": 3,
+      "not_run": 0,
+      "overall": "FAIL"
+    },
+    "queries": [
+      {
+        "name": "monthly_disbursement_by_branch",
+        "status": "FAIL",
+        "detail": "285 source rows and 285 target rows have no exact match",
+        "confidence": "high",
+        "dialect_changes": [
+          "Cast string disbursed_at to timestamp using PARSE_TIMESTAMP",
+          "DATE_TRUNC with month interval on timestamp",
+          "Cast sum result to NUMERIC",
+          "ILIKE -> LOWER() and REGEXP_CONTAINS",
+          "Group by alias"
+        ],
+        "translation_source": "gemini",
+        "gemini_error": null,
+        "examples": [
+          {
+            "source_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "disbursal_month": "2024-02-01",
+              "loans_disbursed": "3",
+              "total_disbursed": "14828829.3787",
+              "avg_interest_rate": "13.289"
+            },
+            "target_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "disbursal_month": "2024-02-01",
+              "loans_disbursed": "3",
+              "total_disbursed": "14828829.378699999",
+              "avg_interest_rate": "13.289"
+            },
+            "differing_columns": [
+              "total_disbursed"
+            ]
+          },
+          {
+            "source_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "disbursal_month": "2024-05-01",
+              "loans_disbursed": "4",
+              "total_disbursed": "8834873.4347",
+              "avg_interest_rate": "14.639"
+            },
+            "target_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "disbursal_month": "2024-05-01",
+              "loans_disbursed": "4",
+              "total_disbursed": "8834873.434700001",
+              "avg_interest_rate": "14.639"
+            },
+            "differing_columns": [
+              "total_disbursed"
+            ]
+          },
+          {
+            "source_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "disbursal_month": "2024-06-01",
+              "loans_disbursed": "6",
+              "total_disbursed": "5899218.9163",
+              "avg_interest_rate": "14.391"
+            },
+            "target_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "disbursal_month": "2024-06-01",
+              "loans_disbursed": "6",
+              "total_disbursed": "5899218.9163",
+              "avg_interest_rate": "14.39"
+            },
+            "differing_columns": [
+              "avg_interest_rate"
+            ]
+          },
+          {
+            "source_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "disbursal_month": "2024-08-01",
+              "loans_disbursed": "4",
+              "total_disbursed": "10495692.9255",
+              "avg_interest_rate": "19.051"
+            },
+            "target_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "disbursal_month": "2024-08-01",
+              "loans_disbursed": "4",
+              "total_disbursed": "10495692.925499998",
+              "avg_interest_rate": "19.051"
+            },
+            "differing_columns": [
+              "total_disbursed"
+            ]
+          },
+          {
+            "source_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "disbursal_month": "2024-12-01",
+              "loans_disbursed": "5",
+              "total_disbursed": "14357157.321",
+              "avg_interest_rate": "15.743"
+            },
+            "target_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "disbursal_month": "2024-12-01",
+              "loans_disbursed": "5",
+              "total_disbursed": "14357157.321000002",
+              "avg_interest_rate": "15.743"
+            },
+            "differing_columns": [
+              "total_disbursed"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "currently_overdue_loans",
+        "status": "FAIL",
+        "detail": "671 source rows and 671 target rows have no exact match",
+        "confidence": "high",
+        "dialect_changes": [
+          "DATE_DIFF instead of operator subtraction",
+          "CAST(... AS INT64) instead of ::int",
+          "CURRENT_DATE() function call",
+          "array_to_string removed because tags is stored as STRING",
+          "ILIKE -> NOT (LOWER(...) LIKE ...)",
+          "Fully-qualified table names"
+        ],
+        "translation_source": "gemini",
+        "gemini_error": null,
+        "examples": [
+          {
+            "source_row": {
+              "loan_id": "1",
+              "full_name": "ಅನಿಲ್ ಕುಮಾರ್",
+              "contact_phone": "6133760523",
+              "branch_code": "BR002",
+              "loan_type": "MICROFINANCE",
+              "emi_amount": "5362.6943",
+              "next_due_date": "2026-11-07",
+              "days_past_due": "2",
+              "tags": "ಗ್ರಾಮೀಣ|women's scheme|rural"
+            },
+            "target_row": {
+              "loan_id": "1",
+              "full_name": "ಅನಿಲ್ ಕುಮಾರ್",
+              "contact_phone": "6133760523",
+              "branch_code": "BR002",
+              "loan_type": "MICROFINANCE",
+              "emi_amount": "5362.6943",
+              "next_due_date": "2026-11-07",
+              "days_past_due": "2",
+              "tags": "ಗ್ರಾಮೀಣ,women's scheme,rural"
+            },
+            "differing_columns": [
+              "tags"
+            ]
+          },
+          {
+            "source_row": {
+              "loan_id": "1002",
+              "full_name": "Joseph D'Souza",
+              "contact_phone": "+911909248762",
+              "branch_code": "BR005",
+              "loan_type": "HOME",
+              "emi_amount": "82286.9751",
+              "next_due_date": "2026-11-02",
+              "days_past_due": "7",
+              "tags": "rural|co-applicant"
+            },
+            "target_row": {
+              "loan_id": "1002",
+              "full_name": "Joseph D'Souza",
+              "contact_phone": "+911909248762",
+              "branch_code": "BR005",
+              "loan_type": "HOME",
+              "emi_amount": "82286.9751",
+              "next_due_date": "2026-11-02",
+              "days_past_due": "7",
+              "tags": "rural,co-applicant"
+            },
+            "differing_columns": [
+              "tags"
+            ]
+          },
+          {
+            "source_row": {
+              "loan_id": "101",
+              "full_name": "Brijesh Yadav",
+              "contact_phone": "+916824239977",
+              "branch_code": "BR013",
+              "loan_type": "GOLD",
+              "emi_amount": "43920.6259",
+              "next_due_date": "2026-09-27",
+              "days_past_due": "43",
+              "tags": "NPA-watch|ಗ್ರಾಮೀಣ|priority"
+            },
+            "target_row": {
+              "loan_id": "101",
+              "full_name": "Brijesh Yadav",
+              "contact_phone": "+916824239977",
+              "branch_code": "BR013",
+              "loan_type": "GOLD",
+              "emi_amount": "43920.6259",
+              "next_due_date": "2026-09-27",
+              "days_past_due": "43",
+              "tags": "NPA-watch,ಗ್ರಾಮೀಣ,priority"
+            },
+            "differing_columns": [
+              "tags"
+            ]
+          },
+          {
+            "source_row": {
+              "loan_id": "1016",
+              "full_name": "Hitesh Keer",
+              "contact_phone": "+911669460212",
+              "branch_code": "BR016",
+              "loan_type": "HOME",
+              "emi_amount": "96541.6937",
+              "next_due_date": "2026-11-06",
+              "days_past_due": "3",
+              "tags": "co-applicant|top-up|NPA-watch"
+            },
+            "target_row": {
+              "loan_id": "1016",
+              "full_name": "Hitesh Keer",
+              "contact_phone": "+911669460212",
+              "branch_code": "BR016",
+              "loan_type": "HOME",
+              "emi_amount": "96541.6937",
+              "next_due_date": "2026-11-06",
+              "days_past_due": "3",
+              "tags": "co-applicant,top-up,NPA-watch"
+            },
+            "differing_columns": [
+              "tags"
+            ]
+          },
+          {
+            "source_row": {
+              "loan_id": "1025",
+              "full_name": "Ekbal Sami",
+              "contact_phone": "8157245000",
+              "branch_code": "BR005",
+              "loan_type": "HOME",
+              "emi_amount": "294469.8886",
+              "next_due_date": "2026-11-01",
+              "days_past_due": "8",
+              "tags": "co-applicant|top-up"
+            },
+            "target_row": {
+              "loan_id": "1025",
+              "full_name": "Ekbal Sami",
+              "contact_phone": "8157245000",
+              "branch_code": "BR005",
+              "loan_type": "HOME",
+              "emi_amount": "294469.8886",
+              "next_due_date": "2026-11-01",
+              "days_past_due": "8",
+              "tags": "co-applicant,top-up"
+            },
+            "differing_columns": [
+              "tags"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "collection_rate_by_branch",
+        "status": "FAIL",
+        "detail": "20 source rows and 20 target rows have no exact match",
+        "confidence": "high",
+        "dialect_changes": [
+          "FILTER (...) WHERE -> CASE WHEN ... THEN ... END",
+          "::numeric(18,4) -> CAST(... AS NUMERIC)",
+          "ILIKE -> LOWER() LIKE",
+          "Fully-qualified table names added"
+        ],
+        "translation_source": "gemini",
+        "gemini_error": null,
+        "examples": [
+          {
+            "source_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "payment_attempts": "1041",
+              "collected_amount": "78322329.8445",
+              "demanded_amount": "91215592.2151",
+              "collection_rate_pct": "85.87",
+              "upi_payments": "328"
+            },
+            "target_row": {
+              "branch_code": "BR001",
+              "branch_name": "Bengaluru - Jayanagar",
+              "payment_attempts": "1041",
+              "collected_amount": "78322329.844500005",
+              "demanded_amount": "91215592.21510005",
+              "collection_rate_pct": "85.87",
+              "upi_payments": "328"
+            },
+            "differing_columns": [
+              "collected_amount",
+              "demanded_amount"
+            ]
+          },
+          {
+            "source_row": {
+              "branch_code": "BR002",
+              "branch_name": "Bengaluru - Whitefield",
+              "payment_attempts": "1030",
+              "collected_amount": "78216088.0566",
+              "demanded_amount": "92297004.1785",
+              "collection_rate_pct": "84.74",
+              "upi_payments": "360"
+            },
+            "target_row": {
+              "branch_code": "BR002",
+              "branch_name": "Bengaluru - Whitefield",
+              "payment_attempts": "1030",
+              "collected_amount": "78216088.056600273",
+              "demanded_amount": "92297004.178500205",
+              "collection_rate_pct": "84.74",
+              "upi_payments": "360"
+            },
+            "differing_columns": [
+              "collected_amount",
+              "demanded_amount"
+            ]
+          },
+          {
+            "source_row": {
+              "branch_code": "BR003",
+              "branch_name": "Mysuru",
+              "payment_attempts": "791",
+              "collected_amount": "66313246.4771",
+              "demanded_amount": "82361275.6504",
+              "collection_rate_pct": "80.52",
+              "upi_payments": "279"
+            },
+            "target_row": {
+              "branch_code": "BR003",
+              "branch_name": "Mysuru",
+              "payment_attempts": "791",
+              "collected_amount": "66313246.477099903",
+              "demanded_amount": "82361275.650399983",
+              "collection_rate_pct": "80.52",
+              "upi_payments": "279"
+            },
+            "differing_columns": [
+              "collected_amount",
+              "demanded_amount"
+            ]
+          },
+          {
+            "source_row": {
+              "branch_code": "BR004",
+              "branch_name": "Mangaluru",
+              "payment_attempts": "775",
+              "collected_amount": "53257029.1138",
+              "demanded_amount": "62743653.1134",
+              "collection_rate_pct": "84.88",
+              "upi_payments": "245"
+            },
+            "target_row": {
+              "branch_code": "BR004",
+              "branch_name": "Mangaluru",
+              "payment_attempts": "775",
+              "collected_amount": "53257029.113799959",
+              "demanded_amount": "62743653.113399968",
+              "collection_rate_pct": "84.88",
+              "upi_payments": "245"
+            },
+            "differing_columns": [
+              "collected_amount",
+              "demanded_amount"
+            ]
+          },
+          {
+            "source_row": {
+              "branch_code": "BR005",
+              "branch_name": "Hubballi",
+              "payment_attempts": "1022",
+              "collected_amount": "377642223.6654",
+              "demanded_amount": "388439836.2583",
+              "collection_rate_pct": "97.22",
+              "upi_payments": "361"
+            },
+            "target_row": {
+              "branch_code": "BR005",
+              "branch_name": "Hubballi",
+              "payment_attempts": "1022",
+              "collected_amount": "377642223.665399909",
+              "demanded_amount": "388439836.258299768",
+              "collection_rate_pct": "97.22",
+              "upi_payments": "361"
+            },
+            "differing_columns": [
+              "collected_amount",
+              "demanded_amount"
+            ]
+          }
+        ]
+      }
+    ],
+    "carried_over_from_report_at": "2026-11-09T12:53:25"
+  },
+  "overall_status": "FAIL"
+}

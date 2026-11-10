@@ -1,0 +1,393 @@
+{
+  "mode": "naive",
+  "model": null,
+  "generated_at": "2026-11-09T09:42:07",
+  "tables": [
+    {
+      "source_table": "branches",
+      "target_table": "branches",
+      "columns": [
+        {
+          "source_column": "branch_id",
+          "source_type": "integer",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "branch_code",
+          "source_type": "character varying(10)",
+          "bq_type": "STRING",
+          "transform": "empty_string_to_null",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "branch_name",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "empty_string_to_null",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "city",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "empty_string_to_null",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "state",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "empty_string_to_null",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "ifsc_code",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "empty_string_to_null",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "manager_name",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "empty_string_to_null",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "opened_on",
+          "source_type": "date",
+          "bq_type": "DATE",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "created_at",
+          "source_type": "timestamp without time zone",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "naive default"
+        }
+      ],
+      "partition_column": null,
+      "partition_reason": "naive default",
+      "clustering_columns": [],
+      "clustering_reason": "naive default"
+    },
+    {
+      "source_table": "customers",
+      "target_table": "customers",
+      "columns": [
+        {
+          "source_column": "customer_id",
+          "source_type": "integer",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "branch_id",
+          "source_type": "integer",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "full_name",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "empty_string_to_null",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "pan_number",
+          "source_type": "character(10)",
+          "bq_type": "STRING",
+          "transform": "empty_string_to_null",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "phone",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "empty_string_to_null",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "alt_phone",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "empty_string_to_null",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "email",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "empty_string_to_null",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "address",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "empty_string_to_null",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "occupation",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "empty_string_to_null",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "monthly_income",
+          "source_type": "numeric(14,4)",
+          "bq_type": "FLOAT64",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "date_of_birth",
+          "source_type": "date",
+          "bq_type": "DATE",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "created_at",
+          "source_type": "timestamp without time zone",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "naive default"
+        }
+      ],
+      "partition_column": null,
+      "partition_reason": "naive default",
+      "clustering_columns": [],
+      "clustering_reason": "naive default"
+    },
+    {
+      "source_table": "loan_events",
+      "target_table": "loan_events",
+      "columns": [
+        {
+          "source_column": "event_id",
+          "source_type": "bigint",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "loan_id",
+          "source_type": "integer",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "event_type",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "empty_string_to_null",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "event_data",
+          "source_type": "jsonb",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "created_at",
+          "source_type": "timestamp without time zone",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "naive default"
+        }
+      ],
+      "partition_column": null,
+      "partition_reason": "naive default",
+      "clustering_columns": [],
+      "clustering_reason": "naive default"
+    },
+    {
+      "source_table": "loans",
+      "target_table": "loans",
+      "columns": [
+        {
+          "source_column": "loan_id",
+          "source_type": "integer",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "customer_id",
+          "source_type": "integer",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "branch_id",
+          "source_type": "integer",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "loan_type",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "empty_string_to_null",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "principal_amount",
+          "source_type": "numeric(14,4)",
+          "bq_type": "FLOAT64",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "interest_rate",
+          "source_type": "numeric(6,3)",
+          "bq_type": "FLOAT64",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "tenure_months",
+          "source_type": "integer",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "emi_amount",
+          "source_type": "numeric(14,4)",
+          "bq_type": "FLOAT64",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "status",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "empty_string_to_null",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "disbursed_at",
+          "source_type": "timestamp without time zone",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "next_due_date",
+          "source_type": "date",
+          "bq_type": "DATE",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "tags",
+          "source_type": "text[]",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "remarks",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "empty_string_to_null",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "created_at",
+          "source_type": "timestamp without time zone",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "naive default"
+        }
+      ],
+      "partition_column": null,
+      "partition_reason": "naive default",
+      "clustering_columns": [],
+      "clustering_reason": "naive default"
+    },
+    {
+      "source_table": "payments",
+      "target_table": "payments",
+      "columns": [
+        {
+          "source_column": "payment_id",
+          "source_type": "bigint",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "loan_id",
+          "source_type": "integer",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "amount",
+          "source_type": "numeric(14,4)",
+          "bq_type": "FLOAT64",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "payment_time",
+          "source_type": "timestamp without time zone",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "payment_mode",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "empty_string_to_null",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "status",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "empty_string_to_null",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "reference_no",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "empty_string_to_null",
+          "reason": "naive default"
+        },
+        {
+          "source_column": "created_at",
+          "source_type": "timestamp without time zone",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "naive default"
+        }
+      ],
+      "partition_column": null,
+      "partition_reason": "naive default",
+      "clustering_columns": [],
+      "clustering_reason": "naive default"
+    }
+  ]
+}

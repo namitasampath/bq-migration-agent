@@ -3,8 +3,10 @@
 Nothing here re-validates or calls Gemini: every number is taken from profile.json,
 plan files, migration_log.json, report_<plan>.json and translations_<plan>.json, which
 the deterministic modules produced. Functions return plain lists/dicts/DataFrames.
+In Load mode, missing root artifacts fall back to the bundled copies in samples/.
 """
 import json
+from contextvars import ContextVar
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Optional
@@ -23,6 +25,9 @@ FILES = {
     "translations_agent": ROOT / "translations_agent.json",
     "translations_naive": ROOT / "translations_naive.json",
 }
+SAMPLES_DIR = ROOT / "samples"   # bundled results so "Load last results" works on a fresh clone
+SAMPLE_NAMES = [n for n in FILES if n != "plan_proposed"]
+_use_samples: ContextVar[bool] = ContextVar("use_samples", default=False)
 CHECK_ORDER = ["exists", "schema", "type_fidelity", "row_count", "row_count_vs_log",
                "null_count", "empty_string_count", "distinct_count", "sum", "min", "max",
                "row_fingerprint", "partitioning", "clustering"]
@@ -44,20 +49,43 @@ LIMITATION_EXPLANATIONS = {
 
 # ---------------------------------------------------------------- loading
 
+def use_samples(enabled: bool) -> None:
+    """Let path()/load() fall back to samples/ when a root artifact is missing (Load mode)."""
+    _use_samples.set(enabled)
+
+
+def path(name: str) -> Path:
+    """Root artifact if present; else the bundled sample copy when the fallback is on."""
+    root = FILES[name]
+    sample = SAMPLES_DIR / root.name
+    if not root.exists() and _use_samples.get() and name in SAMPLE_NAMES and sample.exists():
+        return sample
+    return root
+
+
+def is_sample(name: str) -> bool:
+    return path(name).parent == SAMPLES_DIR
+
+
 def load(name: str) -> Optional[dict]:
     """Parsed JSON for a known artifact, or None if it does not exist / is unreadable."""
-    path = FILES[name]
-    if not path.exists():
+    p = path(name)
+    if not p.exists():
         return None
     try:
-        return json.loads(path.read_text(encoding="utf-8"))
+        return json.loads(p.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return None
 
 
 def modified_at(name: str) -> Optional[float]:
-    path = FILES[name]
-    return path.stat().st_mtime if path.exists() else None
+    p = path(name)
+    return p.stat().st_mtime if p.exists() else None
+
+
+def approved_at() -> Optional[str]:
+    """approved_at of the plan shown (root plan.json, or the sample in Load mode)."""
+    return (load("plan") or {}).get("approved_at")
 
 
 # ---------------------------------------------------------------- profile
@@ -126,11 +154,6 @@ def plan_table_frame(table: dict) -> pd.DataFrame:
 
 
 # ---------------------------------------------------------------- reports
-
-def checks_frame(table_report: dict) -> pd.DataFrame:
-    """Flat list of checks for one table."""
-    return pd.DataFrame(table_report.get("checks", []))
-
 
 def check_grid(table_report: dict) -> pd.DataFrame:
     """Status matrix: rows = columns ('(table)' for table-level), cols = check names."""

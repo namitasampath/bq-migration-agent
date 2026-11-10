@@ -1,0 +1,168 @@
+{
+  "plan": "agent",
+  "model": "gemini-3.5-flash-lite",
+  "generated_at": "2026-11-09T12:58:00",
+  "queries": [
+    {
+      "name": "monthly_disbursement_by_branch",
+      "original_sql": "SELECT\n    b.branch_code,\n    b.branch_name,\n    DATE_TRUNC('month', l.disbursed_at)::date      AS disbursal_month,\n    COUNT(*)                                        AS loans_disbursed,\n    SUM(l.principal_amount)::numeric(18,4)          AS total_disbursed,\n    ROUND(AVG(l.interest_rate), 3)                  AS avg_interest_rate\nFROM loans l\nJOIN branches b ON b.branch_id = l.branch_id\nWHERE l.disbursed_at >= '2024-01-01'::timestamp\n  AND l.loan_type NOT ILIKE 'micro%'\nGROUP BY b.branch_code, b.branch_name, DATE_TRUNC('month', l.disbursed_at)\nORDER BY disbursal_month, b.branch_code",
+      "translated_sql": "SELECT b.branch_code, b.branch_name, CAST(DATE_TRUNC(l.disbursed_at, MONTH) AS DATE) AS disbursal_month, COUNT(*) AS loans_disbursed, CAST(SUM(l.principal_amount) AS NUMERIC) AS total_disbursed, ROUND(AVG(l.interest_rate), 3) AS avg_interest_rate FROM `your-gcp-project.migrated_lending.agent_loans` l JOIN `your-gcp-project.migrated_lending.agent_branches` b ON b.branch_id = l.branch_id WHERE l.disbursed_at >= CAST('2024-01-01' AS DATETIME) AND NOT (LOWER(l.loan_type) LIKE 'micro%') GROUP BY b.branch_code, b.branch_name, disbursal_month ORDER BY disbursal_month, b.branch_code",
+      "dialect_changes": [
+        "DATE_TRUNC syntax change",
+        "DATE cast syntax change",
+        "Numeric precision cast mapping",
+        "Timestamp literal cast",
+        "ILIKE -> NOT (LOWER() LIKE)",
+        "Table references with fully-qualified backticks"
+      ],
+      "confidence": "high",
+      "attempts": [
+        {
+          "attempt": 1,
+          "errors": [],
+          "dry_run_ok": true,
+          "bytes_processed": 286708
+        }
+      ],
+      "translation_source": "gemini",
+      "translated_at": "2026-11-09T12:57:53",
+      "status": "PASS",
+      "detail": "all 645 rows identical",
+      "parity": {
+        "source_columns": [
+          "branch_code",
+          "branch_name",
+          "disbursal_month",
+          "loans_disbursed",
+          "total_disbursed",
+          "avg_interest_rate"
+        ],
+        "target_columns": [
+          "branch_code",
+          "branch_name",
+          "disbursal_month",
+          "loans_disbursed",
+          "total_disbursed",
+          "avg_interest_rate"
+        ],
+        "source_rows": 645,
+        "target_rows": 645,
+        "matching_rows": 645,
+        "examples": [],
+        "source_only_rows": 0,
+        "target_only_rows": 0,
+        "status": "PASS",
+        "detail": "all 645 rows identical"
+      }
+    },
+    {
+      "name": "currently_overdue_loans",
+      "original_sql": "SELECT\n    l.loan_id,\n    c.full_name,\n    COALESCE(NULLIF(c.phone, ''), NULLIF(c.alt_phone, ''), 'N/A') AS contact_phone,\n    b.branch_code,\n    l.loan_type,\n    l.emi_amount,\n    l.next_due_date,\n    (CURRENT_DATE - l.next_due_date)::int           AS days_past_due,\n    COALESCE(array_to_string(l.tags, '|'), '')      AS tags\nFROM loans l\nJOIN customers c ON c.customer_id = l.customer_id\nJOIN branches  b ON b.branch_id   = l.branch_id\nWHERE l.status IN ('ACTIVE', 'OVERDUE')\n  AND l.next_due_date < CURRENT_DATE\n  AND COALESCE(l.remarks, '') NOT ILIKE '%settled%'\nORDER BY days_past_due DESC, l.loan_id",
+      "translated_sql": "SELECT l.loan_id, c.full_name, COALESCE(NULLIF(c.phone, ''), NULLIF(c.alt_phone, ''), 'N/A') AS contact_phone, b.branch_code, l.loan_type, l.emi_amount, l.next_due_date, CAST(DATE_DIFF(CURRENT_DATE(), l.next_due_date, DAY) AS INT64) AS days_past_due, COALESCE(ARRAY_TO_STRING(l.tags, '|'), '') AS tags FROM `your-gcp-project.migrated_lending.agent_loans` l JOIN `your-gcp-project.migrated_lending.agent_customers` c ON c.customer_id = l.customer_id JOIN `your-gcp-project.migrated_lending.agent_branches` b ON b.branch_id = l.branch_id WHERE l.status IN ('ACTIVE', 'OVERDUE') AND l.next_due_date < CURRENT_DATE() AND NOT (LOWER(COALESCE(l.remarks, '')) LIKE '%settled%') ORDER BY days_past_due DESC, l.loan_id",
+      "dialect_changes": [
+        "Replaced table aliases with fully qualified BigQuery table names",
+        "Replaced date subtraction with DATE_DIFF function",
+        "Replaced type cast ::int with CAST(... AS INT64)",
+        "Replaced CURRENT_DATE with CURRENT_DATE()",
+        "Replaced ILIKE with LOWER() LIKE"
+      ],
+      "confidence": "high",
+      "attempts": [
+        {
+          "attempt": 1,
+          "errors": [],
+          "dry_run_ok": true,
+          "bytes_processed": 547290
+        }
+      ],
+      "translation_source": "gemini",
+      "translated_at": "2026-11-09T12:57:56",
+      "status": "PASS",
+      "detail": "all 1375 rows identical",
+      "parity": {
+        "source_columns": [
+          "loan_id",
+          "full_name",
+          "contact_phone",
+          "branch_code",
+          "loan_type",
+          "emi_amount",
+          "next_due_date",
+          "days_past_due",
+          "tags"
+        ],
+        "target_columns": [
+          "loan_id",
+          "full_name",
+          "contact_phone",
+          "branch_code",
+          "loan_type",
+          "emi_amount",
+          "next_due_date",
+          "days_past_due",
+          "tags"
+        ],
+        "source_rows": 1375,
+        "target_rows": 1375,
+        "matching_rows": 1375,
+        "examples": [],
+        "source_only_rows": 0,
+        "target_only_rows": 0,
+        "status": "PASS",
+        "detail": "all 1375 rows identical"
+      }
+    },
+    {
+      "name": "collection_rate_by_branch",
+      "original_sql": "SELECT\n    b.branch_code,\n    b.branch_name,\n    COUNT(p.payment_id)                                                        AS payment_attempts,\n    COALESCE(SUM(p.amount) FILTER (WHERE p.status = 'SUCCESS'), 0)::numeric(18,4) AS collected_amount,\n    COALESCE(SUM(p.amount), 0)::numeric(18,4)                                  AS demanded_amount,\n    ROUND(\n        COALESCE(SUM(p.amount) FILTER (WHERE p.status = 'SUCCESS'), 0)\n        / NULLIF(SUM(p.amount), 0) * 100,\n        2\n    )                                                                          AS collection_rate_pct,\n    COUNT(*) FILTER (WHERE p.payment_mode ILIKE 'upi')                         AS upi_payments\nFROM branches b\nLEFT JOIN loans    l ON l.branch_id = b.branch_id\nLEFT JOIN payments p ON p.loan_id   = l.loan_id\nGROUP BY b.branch_code, b.branch_name\nORDER BY collection_rate_pct DESC NULLS LAST, b.branch_code",
+      "translated_sql": "SELECT b.branch_code, b.branch_name, COUNT(p.payment_id) AS payment_attempts, CAST(COALESCE(SUM(CASE WHEN p.status = 'SUCCESS' THEN p.amount END), 0) AS NUMERIC) AS collected_amount, CAST(COALESCE(SUM(p.amount), 0) AS NUMERIC) AS demanded_amount, ROUND(COALESCE(SUM(CASE WHEN p.status = 'SUCCESS' THEN p.amount END), 0) / NULLIF(SUM(p.amount), 0) * 100, 2) AS collection_rate_pct, COUNT(CASE WHEN LOWER(p.payment_mode) LIKE 'upi' THEN 1 END) AS upi_payments FROM `your-gcp-project.migrated_lending.agent_branches` b LEFT JOIN `your-gcp-project.migrated_lending.agent_loans` l ON l.branch_id = b.branch_id LEFT JOIN `your-gcp-project.migrated_lending.agent_payments` p ON p.loan_id = l.loan_id GROUP BY b.branch_code, b.branch_name ORDER BY collection_rate_pct DESC NULLS LAST, b.branch_code",
+      "dialect_changes": [
+        "FILTER (WHERE ...) -> CASE WHEN ... THEN ... END",
+        "::numeric(18,4) -> CAST(... AS NUMERIC)",
+        "ILIKE -> LOWER() LIKE",
+        "table aliases -> fully qualified backticked tables"
+      ],
+      "confidence": "high",
+      "attempts": [
+        {
+          "attempt": 1,
+          "errors": [],
+          "dry_run_ok": true,
+          "bytes_processed": 1019167
+        }
+      ],
+      "translation_source": "gemini",
+      "translated_at": "2026-11-09T12:57:58",
+      "status": "PASS",
+      "detail": "all 20 rows identical",
+      "parity": {
+        "source_columns": [
+          "branch_code",
+          "branch_name",
+          "payment_attempts",
+          "collected_amount",
+          "demanded_amount",
+          "collection_rate_pct",
+          "upi_payments"
+        ],
+        "target_columns": [
+          "branch_code",
+          "branch_name",
+          "payment_attempts",
+          "collected_amount",
+          "demanded_amount",
+          "collection_rate_pct",
+          "upi_payments"
+        ],
+        "source_rows": 20,
+        "target_rows": 20,
+        "matching_rows": 20,
+        "examples": [],
+        "source_only_rows": 0,
+        "target_only_rows": 0,
+        "status": "PASS",
+        "detail": "all 20 rows identical"
+      }
+    }
+  ]
+}

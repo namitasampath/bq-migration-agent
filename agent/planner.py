@@ -592,13 +592,15 @@ def propose_from_approved() -> None:
 
 def approve_plan(profile: dict, proposed: Path = PROPOSED_PLAN_PATH,
                  target: Path = PLAN_PATH) -> str:
-    """Validate the proposal, copy it to plan.json with approved_at; return the timestamp."""
+    """Validate the proposal, copy it to plan.json with approved_at, delete the proposal
+    (it is now identical to plan.json); return the timestamp."""
     doc = json.loads(proposed.read_text(encoding="utf-8"))
     errors = validate_plan(Plan.model_validate(doc), profile)
     if errors:
         raise ValueError("Proposed plan is invalid:\n- " + "\n- ".join(errors))
     doc["approved_at"] = datetime.now().replace(microsecond=0).isoformat()
     target.write_text(json.dumps(doc, indent=2, ensure_ascii=False), encoding="utf-8")
+    proposed.unlink()
     return doc["approved_at"]
 
 

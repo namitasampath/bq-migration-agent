@@ -118,14 +118,6 @@ def is_array_source(src_type: str) -> bool:
     return src_type.endswith("[]")
 
 
-def is_json_source(src_type: str) -> bool:
-    return src_type in ("json", "jsonb")
-
-
-def is_timestamp_source(src_type: str) -> bool:
-    return src_type.startswith("timestamp")
-
-
 def to_decimal(v):
     """Exact Decimal; refuse floats so money never passes through binary floating point."""
     if isinstance(v, float):

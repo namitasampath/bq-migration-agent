@@ -1,0 +1,468 @@
+{
+  "mode": "agent",
+  "model": "gemini-3.8-flash",
+  "generated_at": "2026-11-09T09:44:30",
+  "tables": [
+    {
+      "source_table": "branches",
+      "target_table": "branches",
+      "columns": [
+        {
+          "source_column": "branch_id",
+          "source_type": "integer",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "Integer primary key mapped to standard 64-bit integer.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "branch_code",
+          "source_type": "character varying(10)",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "Fixed-length code mapped directly to BigQuery STRING.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "branch_name",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "Variable text column mapped directly to STRING.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "city",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "City name text mapped directly to STRING without transformation.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "state",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "State name text mapped directly to STRING without transformation.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "ifsc_code",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "keep_as_is",
+          "reason": "Preserves 5 empty string entries as recorded in the source data.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "manager_name",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "keep_as_is",
+          "reason": "Retains 1 empty string manager name to prevent unintended null coercion.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "opened_on",
+          "source_type": "date",
+          "bq_type": "DATE",
+          "transform": "none",
+          "reason": "Source date maps directly to native BigQuery DATE.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "created_at",
+          "source_type": "timestamp without time zone",
+          "bq_type": "DATETIME",
+          "transform": "timestamp_to_datetime",
+          "reason": "Preserves full microsecond precision across all 20 branch records as DATETIME.",
+          "raw_companion": null
+        }
+      ],
+      "partition_column": null,
+      "partition_reason": "Table contains only 20 rows where partitioning would provide no query optimization benefit.",
+      "clustering_columns": [
+        "branch_id"
+      ],
+      "clustering_reason": "Clustering on primary key branch_id optimizes frequent join and lookup queries."
+    },
+    {
+      "source_table": "customers",
+      "target_table": "customers",
+      "columns": [
+        {
+          "source_column": "customer_id",
+          "source_type": "integer",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "Integer primary key mapped to INT64.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "branch_id",
+          "source_type": "integer",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "Foreign key referencing branches mapped to INT64.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "full_name",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "Customer name text mapped directly to STRING.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "pan_number",
+          "source_type": "character(10)",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "Fixed-length PAN identifier stored as STRING.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "phone",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "Customer phone number mapped directly to STRING.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "alt_phone",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "keep_as_is",
+          "reason": "Retains 516 empty string phone entries to preserve original source representation.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "email",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "keep_as_is",
+          "reason": "Maintains 181 empty strings without coercing them to null.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "address",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "keep_as_is",
+          "reason": "Preserves 88 empty string addresses as distinct from null values.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "occupation",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "keep_as_is",
+          "reason": "Keeps 204 empty string occupation values across the 7 distinct categories.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "monthly_income",
+          "source_type": "numeric(14,4)",
+          "bq_type": "NUMERIC",
+          "transform": "none",
+          "reason": "NUMERIC supports precision up to 38 and scale 9, easily fitting the max income of 99999999.9999.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "date_of_birth",
+          "source_type": "date",
+          "bq_type": "DATE",
+          "transform": "none",
+          "reason": "Source date column mapped directly to native BigQuery DATE.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "created_at",
+          "source_type": "timestamp without time zone",
+          "bq_type": "DATETIME",
+          "transform": "timestamp_to_datetime",
+          "reason": "Retains exact microsecond precision for all 2,000 customer timestamps as DATETIME.",
+          "raw_companion": null
+        }
+      ],
+      "partition_column": null,
+      "partition_reason": "A small dataset of 2,000 rows does not warrant partitioning overhead.",
+      "clustering_columns": [
+        "branch_id",
+        "customer_id"
+      ],
+      "clustering_reason": "Clustering on branch_id and customer_id accelerates branch-level aggregations and customer lookups."
+    },
+    {
+      "source_table": "loan_events",
+      "target_table": "loan_events",
+      "columns": [
+        {
+          "source_column": "event_id",
+          "source_type": "bigint",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "Source 64-bit bigint mapped directly to INT64.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "loan_id",
+          "source_type": "integer",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "Foreign key integer referencing loans mapped to INT64.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "event_type",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "Categorical event type mapped directly to STRING.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "event_data",
+          "source_type": "jsonb",
+          "bq_type": "JSON",
+          "transform": "json_to_json",
+          "reason": "Native jsonb mapped to BigQuery JSON for optimized semi-structured querying.",
+          "raw_companion": "event_data_raw"
+        },
+        {
+          "source_column": "created_at",
+          "source_type": "timestamp without time zone",
+          "bq_type": "DATETIME",
+          "transform": "timestamp_to_datetime",
+          "reason": "Preserves microsecond precision across all 10,000 event timestamps as DATETIME.",
+          "raw_companion": null
+        }
+      ],
+      "partition_column": "created_at",
+      "partition_reason": "Partitioning by created_at enables efficient time-range pruning across 10,000 historical events.",
+      "clustering_columns": [
+        "loan_id",
+        "event_type"
+      ],
+      "clustering_reason": "Clustering on loan_id and event_type optimizes event history retrieval for specific loans."
+    },
+    {
+      "source_table": "loans",
+      "target_table": "loans",
+      "columns": [
+        {
+          "source_column": "loan_id",
+          "source_type": "integer",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "Integer primary key mapped directly to INT64.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "customer_id",
+          "source_type": "integer",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "Foreign key customer_id mapped directly to INT64.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "branch_id",
+          "source_type": "integer",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "Foreign key branch_id mapped directly to INT64.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "loan_type",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "Low-cardinality loan category mapped directly to STRING.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "principal_amount",
+          "source_type": "numeric(14,4)",
+          "bq_type": "NUMERIC",
+          "transform": "none",
+          "reason": "NUMERIC preserves exact 4-decimal precision up to the profiled maximum value of 9999999999.9999.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "interest_rate",
+          "source_type": "numeric(6,3)",
+          "bq_type": "NUMERIC",
+          "transform": "none",
+          "reason": "NUMERIC retains exact 3-decimal precision without floating-point distortion.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "tenure_months",
+          "source_type": "integer",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "Tenure integer value mapped to INT64.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "emi_amount",
+          "source_type": "numeric(14,4)",
+          "bq_type": "NUMERIC",
+          "transform": "none",
+          "reason": "NUMERIC preserves exact financial scale of 4 decimal places for EMI calculations.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "status",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "Status category text mapped directly to STRING.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "disbursed_at",
+          "source_type": "timestamp without time zone",
+          "bq_type": "DATETIME",
+          "transform": "timestamp_to_datetime",
+          "reason": "Preserves microsecond precision for all 5,000 disbursement timestamps.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "next_due_date",
+          "source_type": "date",
+          "bq_type": "DATE",
+          "transform": "none",
+          "reason": "Payment due date mapped directly to native BigQuery DATE.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "tags",
+          "source_type": "text[]",
+          "bq_type": "ARRAY<STRING>",
+          "transform": "array_to_array",
+          "reason": "PostgreSQL text array mapped to native BigQuery ARRAY<STRING>.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "remarks",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "keep_as_is",
+          "reason": "Preserves 1,004 empty string remarks rather than converting them to null.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "created_at",
+          "source_type": "timestamp without time zone",
+          "bq_type": "DATETIME",
+          "transform": "timestamp_to_datetime",
+          "reason": "Preserves microsecond-level creation timestamps as DATETIME without timezone shifts.",
+          "raw_companion": null
+        }
+      ],
+      "partition_column": null,
+      "partition_reason": "A table with only 5,000 rows performs best without partition management overhead.",
+      "clustering_columns": [
+        "status",
+        "loan_type",
+        "branch_id",
+        "customer_id"
+      ],
+      "clustering_reason": "Clustering matches frequent operational filtering on loan status, product type, branch, and customer."
+    },
+    {
+      "source_table": "payments",
+      "target_table": "payments",
+      "columns": [
+        {
+          "source_column": "payment_id",
+          "source_type": "bigint",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "Source 64-bit bigint mapped directly to INT64.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "loan_id",
+          "source_type": "integer",
+          "bq_type": "INT64",
+          "transform": "none",
+          "reason": "Foreign key referencing loans mapped to INT64.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "amount",
+          "source_type": "numeric(14,4)",
+          "bq_type": "NUMERIC",
+          "transform": "none",
+          "reason": "NUMERIC handles monetary payment values up to 4 decimal places without precision loss.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "payment_time",
+          "source_type": "timestamp without time zone",
+          "bq_type": "DATETIME",
+          "transform": "timestamp_to_datetime",
+          "reason": "Preserves microsecond-level precision across all 20,000 payment timestamps.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "payment_mode",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "Categorical payment channel text mapped directly to STRING.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "status",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "none",
+          "reason": "Payment status text mapped directly to STRING.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "reference_no",
+          "source_type": "text",
+          "bq_type": "STRING",
+          "transform": "keep_as_is",
+          "reason": "Retains 2,492 empty string reference numbers to preserve raw transaction records.",
+          "raw_companion": null
+        },
+        {
+          "source_column": "created_at",
+          "source_type": "timestamp without time zone",
+          "bq_type": "DATETIME",
+          "transform": "timestamp_to_datetime",
+          "reason": "Captures payment record creation timestamps with full microsecond precision.",
+          "raw_companion": null
+        }
+      ],
+      "partition_column": "payment_time",
+      "partition_reason": "Partitioning by payment_time supports efficient date-range pruning across 20,000 financial transactions.",
+      "clustering_columns": [
+        "loan_id",
+        "status",
+        "payment_mode"
+      ],
+      "clustering_reason": "Clustering on loan_id, status, and payment_mode optimizes frequent payment reconciliation queries."
+    }
+  ],
+  "amendments": [
+    {
+      "at": "2026-11-09T10:29:20",
+      "rule": "jsonb raw companion (deterministic, no Gemini call)",
+      "changes": [
+        "loan_events.event_data -> +event_data_raw"
+      ]
+    }
+  ],
+  "approved_at": "2026-11-09T13:04:46"
+}

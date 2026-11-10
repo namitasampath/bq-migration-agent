@@ -1,0 +1,1019 @@
+{
+  "database": "postgres",
+  "server_version": "16.15 (Debian 16.15-1.pgdg13+2)",
+  "schema": "public",
+  "profiled_at": "2026-11-09T09:29:59",
+  "tables": [
+    {
+      "name": "branches",
+      "row_count": 20,
+      "primary_key": [
+        "branch_id"
+      ],
+      "foreign_keys": [],
+      "columns": [
+        {
+          "name": "branch_id",
+          "type": "integer",
+          "udt": "int4",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 20,
+            "min": 1,
+            "max": 20
+          }
+        },
+        {
+          "name": "branch_code",
+          "type": "character varying(10)",
+          "udt": "varchar",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": 10,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 20,
+            "empty_string_count": 0
+          }
+        },
+        {
+          "name": "branch_name",
+          "type": "text",
+          "udt": "text",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 20,
+            "empty_string_count": 0
+          }
+        },
+        {
+          "name": "city",
+          "type": "text",
+          "udt": "text",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 19,
+            "empty_string_count": 0
+          }
+        },
+        {
+          "name": "state",
+          "type": "text",
+          "udt": "text",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 8,
+            "empty_string_count": 0
+          }
+        },
+        {
+          "name": "ifsc_code",
+          "type": "text",
+          "udt": "text",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": true,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 5,
+            "distinct_count": 11,
+            "empty_string_count": 5
+          }
+        },
+        {
+          "name": "manager_name",
+          "type": "text",
+          "udt": "text",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": true,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 1,
+            "distinct_count": 19,
+            "empty_string_count": 1
+          }
+        },
+        {
+          "name": "opened_on",
+          "type": "date",
+          "udt": "date",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 20,
+            "min": "2010-12-31",
+            "max": "2020-01-05"
+          }
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp without time zone",
+          "udt": "timestamp",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 20,
+            "min": "2010-12-31T11:08:58.141241",
+            "max": "2020-01-05T20:06:33.166771",
+            "rows_with_microseconds": 20,
+            "has_nonzero_microseconds": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "customers",
+      "row_count": 2000,
+      "primary_key": [
+        "customer_id"
+      ],
+      "foreign_keys": [
+        {
+          "name": "customers_branch_id_fkey",
+          "columns": [
+            "branch_id"
+          ],
+          "ref_table": "branches",
+          "ref_columns": [
+            "branch_id"
+          ]
+        }
+      ],
+      "columns": [
+        {
+          "name": "customer_id",
+          "type": "integer",
+          "udt": "int4",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 2000,
+            "min": 1,
+            "max": 2000
+          }
+        },
+        {
+          "name": "branch_id",
+          "type": "integer",
+          "udt": "int4",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 20,
+            "min": 1,
+            "max": 20
+          }
+        },
+        {
+          "name": "full_name",
+          "type": "text",
+          "udt": "text",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 1679,
+            "empty_string_count": 0
+          }
+        },
+        {
+          "name": "pan_number",
+          "type": "character(10)",
+          "udt": "bpchar",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": true,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": 10,
+          "default": null,
+          "stats": {
+            "null_count": 103,
+            "distinct_count": 1897,
+            "empty_string_count": 0
+          }
+        },
+        {
+          "name": "phone",
+          "type": "text",
+          "udt": "text",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 2000,
+            "empty_string_count": 0
+          }
+        },
+        {
+          "name": "alt_phone",
+          "type": "text",
+          "udt": "text",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": true,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 770,
+            "distinct_count": 715,
+            "empty_string_count": 516
+          }
+        },
+        {
+          "name": "email",
+          "type": "text",
+          "udt": "text",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": true,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 290,
+            "distinct_count": 1527,
+            "empty_string_count": 181
+          }
+        },
+        {
+          "name": "address",
+          "type": "text",
+          "udt": "text",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": true,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 79,
+            "distinct_count": 1834,
+            "empty_string_count": 88
+          }
+        },
+        {
+          "name": "occupation",
+          "type": "text",
+          "udt": "text",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": true,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 211,
+            "distinct_count": 7,
+            "empty_string_count": 204
+          }
+        },
+        {
+          "name": "monthly_income",
+          "type": "numeric(14,4)",
+          "udt": "numeric",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": true,
+          "numeric_precision": 14,
+          "numeric_scale": 4,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 166,
+            "distinct_count": 1833,
+            "min": "12036.6896",
+            "max": "99999999.9999",
+            "max_decimal_places_used": 4
+          }
+        },
+        {
+          "name": "date_of_birth",
+          "type": "date",
+          "udt": "date",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": true,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 1883,
+            "min": "1955-12-01",
+            "max": "2005-11-05"
+          }
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp without time zone",
+          "udt": "timestamp",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 2000,
+            "min": "2021-01-01T06:45:01.609471",
+            "max": "2026-08-30T09:19:27.371868",
+            "rows_with_microseconds": 2000,
+            "has_nonzero_microseconds": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "loan_events",
+      "row_count": 10000,
+      "primary_key": [
+        "event_id"
+      ],
+      "foreign_keys": [
+        {
+          "name": "loan_events_loan_id_fkey",
+          "columns": [
+            "loan_id"
+          ],
+          "ref_table": "loans",
+          "ref_columns": [
+            "loan_id"
+          ]
+        }
+      ],
+      "columns": [
+        {
+          "name": "event_id",
+          "type": "bigint",
+          "udt": "int8",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 10000,
+            "min": 1,
+            "max": 10000
+          }
+        },
+        {
+          "name": "loan_id",
+          "type": "integer",
+          "udt": "int4",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 5000,
+            "min": 1,
+            "max": 5000
+          }
+        },
+        {
+          "name": "event_type",
+          "type": "text",
+          "udt": "text",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 5,
+            "empty_string_count": 0
+          }
+        },
+        {
+          "name": "event_data",
+          "type": "jsonb",
+          "udt": "jsonb",
+          "is_array": false,
+          "element_type": null,
+          "is_json": true,
+          "nullable": true,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 300,
+            "distinct_count": 7217
+          }
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp without time zone",
+          "udt": "timestamp",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 10000,
+            "min": "2021-01-13T10:55:39.565989",
+            "max": "2026-10-31T22:30:51.374689",
+            "rows_with_microseconds": 10000,
+            "has_nonzero_microseconds": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "loans",
+      "row_count": 5000,
+      "primary_key": [
+        "loan_id"
+      ],
+      "foreign_keys": [
+        {
+          "name": "loans_branch_id_fkey",
+          "columns": [
+            "branch_id"
+          ],
+          "ref_table": "branches",
+          "ref_columns": [
+            "branch_id"
+          ]
+        },
+        {
+          "name": "loans_customer_id_fkey",
+          "columns": [
+            "customer_id"
+          ],
+          "ref_table": "customers",
+          "ref_columns": [
+            "customer_id"
+          ]
+        }
+      ],
+      "columns": [
+        {
+          "name": "loan_id",
+          "type": "integer",
+          "udt": "int4",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 5000,
+            "min": 1,
+            "max": 5000
+          }
+        },
+        {
+          "name": "customer_id",
+          "type": "integer",
+          "udt": "int4",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 1844,
+            "min": 1,
+            "max": 2000
+          }
+        },
+        {
+          "name": "branch_id",
+          "type": "integer",
+          "udt": "int4",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 20,
+            "min": 1,
+            "max": 20
+          }
+        },
+        {
+          "name": "loan_type",
+          "type": "text",
+          "udt": "text",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 6,
+            "empty_string_count": 0
+          }
+        },
+        {
+          "name": "principal_amount",
+          "type": "numeric(14,4)",
+          "udt": "numeric",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": 14,
+          "numeric_scale": 4,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 4997,
+            "min": "10034.7580",
+            "max": "9999999999.9999",
+            "max_decimal_places_used": 4
+          }
+        },
+        {
+          "name": "interest_rate",
+          "type": "numeric(6,3)",
+          "udt": "numeric",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": 6,
+          "numeric_scale": 3,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 4345,
+            "min": "8.502",
+            "max": "27.997",
+            "max_decimal_places_used": 3
+          }
+        },
+        {
+          "name": "tenure_months",
+          "type": "integer",
+          "udt": "int4",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 7,
+            "min": 6,
+            "max": 60
+          }
+        },
+        {
+          "name": "emi_amount",
+          "type": "numeric(14,4)",
+          "udt": "numeric",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": 14,
+          "numeric_scale": 4,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 5000,
+            "min": "234.2497",
+            "max": "907923878.8287",
+            "max_decimal_places_used": 4
+          }
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "udt": "text",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 4,
+            "empty_string_count": 0
+          }
+        },
+        {
+          "name": "disbursed_at",
+          "type": "timestamp without time zone",
+          "udt": "timestamp",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 5000,
+            "min": "2021-01-13T10:55:39.565989",
+            "max": "2026-10-01T18:00:20.500112",
+            "rows_with_microseconds": 5000,
+            "has_nonzero_microseconds": true
+          }
+        },
+        {
+          "name": "next_due_date",
+          "type": "date",
+          "udt": "date",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": true,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 1528,
+            "distinct_count": 210,
+            "min": "2026-05-04",
+            "max": "2026-11-30"
+          }
+        },
+        {
+          "name": "tags",
+          "type": "text[]",
+          "udt": "_text",
+          "is_array": true,
+          "element_type": "text",
+          "is_json": false,
+          "nullable": true,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 1012,
+            "distinct_count": 535
+          }
+        },
+        {
+          "name": "remarks",
+          "type": "text",
+          "udt": "text",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": true,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 2011,
+            "distinct_count": 6,
+            "empty_string_count": 1004
+          }
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp without time zone",
+          "udt": "timestamp",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 5000,
+            "min": "2021-01-07T09:52:29.565989",
+            "max": "2026-09-29T19:57:15.124657",
+            "rows_with_microseconds": 5000,
+            "has_nonzero_microseconds": true
+          }
+        }
+      ]
+    },
+    {
+      "name": "payments",
+      "row_count": 20000,
+      "primary_key": [
+        "payment_id"
+      ],
+      "foreign_keys": [
+        {
+          "name": "payments_loan_id_fkey",
+          "columns": [
+            "loan_id"
+          ],
+          "ref_table": "loans",
+          "ref_columns": [
+            "loan_id"
+          ]
+        }
+      ],
+      "columns": [
+        {
+          "name": "payment_id",
+          "type": "bigint",
+          "udt": "int8",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 20000,
+            "min": 1,
+            "max": 20000
+          }
+        },
+        {
+          "name": "loan_id",
+          "type": "integer",
+          "udt": "int4",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 4902,
+            "min": 1,
+            "max": 5000
+          }
+        },
+        {
+          "name": "amount",
+          "type": "numeric(14,4)",
+          "udt": "numeric",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": 14,
+          "numeric_scale": 4,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 12601,
+            "min": "100.4206",
+            "max": "907923878.8287",
+            "max_decimal_places_used": 4
+          }
+        },
+        {
+          "name": "payment_time",
+          "type": "timestamp without time zone",
+          "udt": "timestamp",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 20000,
+            "min": "2021-01-25T01:24:27.027065",
+            "max": "2026-10-31T23:06:01.895565",
+            "rows_with_microseconds": 20000,
+            "has_nonzero_microseconds": true
+          }
+        },
+        {
+          "name": "payment_mode",
+          "type": "text",
+          "udt": "text",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 6,
+            "empty_string_count": 0
+          }
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "udt": "text",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 3,
+            "empty_string_count": 0
+          }
+        },
+        {
+          "name": "reference_no",
+          "type": "text",
+          "udt": "text",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": true,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 2537,
+            "distinct_count": 14972,
+            "empty_string_count": 2492
+          }
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp without time zone",
+          "udt": "timestamp",
+          "is_array": false,
+          "element_type": null,
+          "is_json": false,
+          "nullable": false,
+          "numeric_precision": null,
+          "numeric_scale": null,
+          "char_max_length": null,
+          "default": null,
+          "stats": {
+            "null_count": 0,
+            "distinct_count": 20000,
+            "min": "2021-01-25T01:25:20.027065",
+            "max": "2026-10-31T23:06:54.895565",
+            "rows_with_microseconds": 20000,
+            "has_nonzero_microseconds": true
+          }
+        }
+      ]
+    }
+  ]
+}

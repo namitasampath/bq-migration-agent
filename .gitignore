@@ -12,3 +12,4 @@ report_*.json
 translations_*.json
 .cache/
 plan_proposed.json
+!samples/*.json

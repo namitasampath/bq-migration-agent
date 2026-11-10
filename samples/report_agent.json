@@ -1,0 +1,2286 @@
+{
+  "plan": "agent",
+  "generated_at": "2026-11-09T12:59:13",
+  "project": "your-gcp-project",
+  "dataset": "migrated_lending",
+  "sandbox": true,
+  "summary": {
+    "tables": 5,
+    "passed": 3,
+    "warned": 2,
+    "failed": 0,
+    "overall": "WARN"
+  },
+  "tables": [
+    {
+      "source_table": "branches",
+      "target_table": "agent_branches",
+      "table_id": "your-gcp-project.migrated_lending.agent_branches",
+      "primary_key": [
+        "branch_id"
+      ],
+      "fingerprint": {
+        "source_rows": 20,
+        "target_rows": 20,
+        "matching": 20,
+        "mismatched": 0,
+        "known_limitation_rows": 0,
+        "missing_in_target": 0,
+        "extra_in_target": 0,
+        "column_mismatch_counts": {},
+        "known_limitation_cells": {},
+        "examples": [],
+        "raw_companions_exact": {}
+      },
+      "checks": [
+        {
+          "check": "schema",
+          "column": null,
+          "status": "PASS",
+          "source": null,
+          "target": null,
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "integer",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "branch_code",
+          "status": "PASS",
+          "source": "character varying(10)",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "branch_name",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "city",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "state",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "ifsc_code",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "manager_name",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "opened_on",
+          "status": "PASS",
+          "source": "date",
+          "target": "DATE",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "created_at",
+          "status": "PASS",
+          "source": "timestamp without time zone",
+          "target": "DATETIME",
+          "detail": ""
+        },
+        {
+          "check": "row_count",
+          "column": null,
+          "status": "PASS",
+          "source": 20,
+          "target": 20,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": 20,
+          "target": 20,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "210",
+          "target": "210",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "1",
+          "target": "1",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "20",
+          "target": "20",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "branch_code",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "branch_code",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "branch_code",
+          "status": "PASS",
+          "source": 20,
+          "target": 20,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "branch_name",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "branch_name",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "branch_name",
+          "status": "PASS",
+          "source": 20,
+          "target": 20,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "city",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "city",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "city",
+          "status": "PASS",
+          "source": 19,
+          "target": 19,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "state",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "state",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "state",
+          "status": "PASS",
+          "source": 8,
+          "target": 8,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "ifsc_code",
+          "status": "PASS",
+          "source": 5,
+          "target": 5,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "ifsc_code",
+          "status": "PASS",
+          "source": 5,
+          "target": 5,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "ifsc_code",
+          "status": "PASS",
+          "source": 11,
+          "target": 11,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "manager_name",
+          "status": "PASS",
+          "source": 1,
+          "target": 1,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "manager_name",
+          "status": "PASS",
+          "source": 1,
+          "target": 1,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "manager_name",
+          "status": "PASS",
+          "source": 19,
+          "target": 19,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "opened_on",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "opened_on",
+          "status": "PASS",
+          "source": 20,
+          "target": 20,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "created_at",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "created_at",
+          "status": "PASS",
+          "source": 20,
+          "target": 20,
+          "detail": ""
+        },
+        {
+          "check": "row_fingerprint",
+          "column": null,
+          "status": "PASS",
+          "source": 20,
+          "target": 20,
+          "detail": "all 20 rows match"
+        },
+        {
+          "check": "partitioning",
+          "column": null,
+          "status": "PASS",
+          "source": null,
+          "target": null,
+          "detail": ""
+        },
+        {
+          "check": "clustering",
+          "column": null,
+          "status": "PASS",
+          "source": [
+            "branch_id"
+          ],
+          "target": [
+            "branch_id"
+          ],
+          "detail": ""
+        }
+      ],
+      "status": "PASS",
+      "check_counts": {
+        "PASS": 41,
+        "INFO": 0,
+        "WARN": 0,
+        "FAIL": 0
+      }
+    },
+    {
+      "source_table": "customers",
+      "target_table": "agent_customers",
+      "table_id": "your-gcp-project.migrated_lending.agent_customers",
+      "primary_key": [
+        "customer_id"
+      ],
+      "fingerprint": {
+        "source_rows": 2000,
+        "target_rows": 2000,
+        "matching": 2000,
+        "mismatched": 0,
+        "known_limitation_rows": 0,
+        "missing_in_target": 0,
+        "extra_in_target": 0,
+        "column_mismatch_counts": {},
+        "known_limitation_cells": {},
+        "examples": [],
+        "raw_companions_exact": {}
+      },
+      "checks": [
+        {
+          "check": "schema",
+          "column": null,
+          "status": "PASS",
+          "source": null,
+          "target": null,
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": "integer",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "integer",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "full_name",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "pan_number",
+          "status": "PASS",
+          "source": "character(10)",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "phone",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "alt_phone",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "email",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "address",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "occupation",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "monthly_income",
+          "status": "PASS",
+          "source": "numeric(14,4)",
+          "target": "NUMERIC",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "date_of_birth",
+          "status": "PASS",
+          "source": "date",
+          "target": "DATE",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "created_at",
+          "status": "PASS",
+          "source": "timestamp without time zone",
+          "target": "DATETIME",
+          "detail": ""
+        },
+        {
+          "check": "row_count",
+          "column": null,
+          "status": "PASS",
+          "source": 2000,
+          "target": 2000,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": 2000,
+          "target": 2000,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": "2001000",
+          "target": "2001000",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": "1",
+          "target": "1",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": "2000",
+          "target": "2000",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": 20,
+          "target": 20,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "21235",
+          "target": "21235",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "1",
+          "target": "1",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "20",
+          "target": "20",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "full_name",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "full_name",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "full_name",
+          "status": "PASS",
+          "source": 1679,
+          "target": 1679,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "pan_number",
+          "status": "PASS",
+          "source": 103,
+          "target": 103,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "pan_number",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "pan_number",
+          "status": "PASS",
+          "source": 1897,
+          "target": 1897,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "phone",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "phone",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "phone",
+          "status": "PASS",
+          "source": 2000,
+          "target": 2000,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "alt_phone",
+          "status": "PASS",
+          "source": 770,
+          "target": 770,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "alt_phone",
+          "status": "PASS",
+          "source": 516,
+          "target": 516,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "alt_phone",
+          "status": "PASS",
+          "source": 715,
+          "target": 715,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "email",
+          "status": "PASS",
+          "source": 290,
+          "target": 290,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "email",
+          "status": "PASS",
+          "source": 181,
+          "target": 181,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "email",
+          "status": "PASS",
+          "source": 1527,
+          "target": 1527,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "address",
+          "status": "PASS",
+          "source": 79,
+          "target": 79,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "address",
+          "status": "PASS",
+          "source": 88,
+          "target": 88,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "address",
+          "status": "PASS",
+          "source": 1834,
+          "target": 1834,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "occupation",
+          "status": "PASS",
+          "source": 211,
+          "target": 211,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "occupation",
+          "status": "PASS",
+          "source": 204,
+          "target": 204,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "occupation",
+          "status": "PASS",
+          "source": 7,
+          "target": 7,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "monthly_income",
+          "status": "PASS",
+          "source": 166,
+          "target": 166,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "monthly_income",
+          "status": "PASS",
+          "source": 1833,
+          "target": 1833,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "monthly_income",
+          "status": "PASS",
+          "source": "532921337.0801",
+          "target": "532921337.0801",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "monthly_income",
+          "status": "PASS",
+          "source": "12036.6896",
+          "target": "12036.6896",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "monthly_income",
+          "status": "PASS",
+          "source": "99999999.9999",
+          "target": "99999999.9999",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "date_of_birth",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "date_of_birth",
+          "status": "PASS",
+          "source": 1883,
+          "target": 1883,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "created_at",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "created_at",
+          "status": "PASS",
+          "source": 2000,
+          "target": 2000,
+          "detail": ""
+        },
+        {
+          "check": "row_fingerprint",
+          "column": null,
+          "status": "PASS",
+          "source": 2000,
+          "target": 2000,
+          "detail": "all 2000 rows match"
+        },
+        {
+          "check": "partitioning",
+          "column": null,
+          "status": "PASS",
+          "source": null,
+          "target": null,
+          "detail": ""
+        },
+        {
+          "check": "clustering",
+          "column": null,
+          "status": "PASS",
+          "source": [
+            "branch_id",
+            "customer_id"
+          ],
+          "target": [
+            "branch_id",
+            "customer_id"
+          ],
+          "detail": ""
+        }
+      ],
+      "status": "PASS",
+      "check_counts": {
+        "PASS": 57,
+        "INFO": 0,
+        "WARN": 0,
+        "FAIL": 0
+      }
+    },
+    {
+      "source_table": "loan_events",
+      "target_table": "agent_loan_events",
+      "table_id": "your-gcp-project.migrated_lending.agent_loan_events",
+      "primary_key": [
+        "event_id"
+      ],
+      "fingerprint": {
+        "source_rows": 10000,
+        "target_rows": 10000,
+        "matching": 9999,
+        "mismatched": 0,
+        "known_limitation_rows": 1,
+        "missing_in_target": 0,
+        "extra_in_target": 0,
+        "column_mismatch_counts": {},
+        "known_limitation_cells": {
+          "json_float": 1
+        },
+        "examples": [
+          {
+            "primary_key": {
+              "event_id": "7607"
+            },
+            "column": "event_data",
+            "source_value": "{\"amount\":606872.2549,\"attempt\":3,\"charges\":590,\"reason\":null}",
+            "target_value": "{\"amount\":606872.2549000001,\"attempt\":3,\"charges\":590,\"reason\":null}",
+            "known_limitation": "json_float"
+          }
+        ],
+        "raw_companions_exact": {
+          "event_data": true
+        }
+      },
+      "checks": [
+        {
+          "check": "schema",
+          "column": null,
+          "status": "PASS",
+          "source": null,
+          "target": null,
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "event_id",
+          "status": "PASS",
+          "source": "bigint",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "integer",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "event_type",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "event_data",
+          "status": "PASS",
+          "source": "jsonb",
+          "target": "JSON",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "event_data_raw",
+          "status": "PASS",
+          "source": "jsonb (raw text)",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "created_at",
+          "status": "PASS",
+          "source": "timestamp without time zone",
+          "target": "DATETIME",
+          "detail": ""
+        },
+        {
+          "check": "row_count",
+          "column": null,
+          "status": "PASS",
+          "source": 10000,
+          "target": 10000,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "event_id",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "event_id",
+          "status": "PASS",
+          "source": 10000,
+          "target": 10000,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "event_id",
+          "status": "PASS",
+          "source": "50005000",
+          "target": "50005000",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "event_id",
+          "status": "PASS",
+          "source": "1",
+          "target": "1",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "event_id",
+          "status": "PASS",
+          "source": "10000",
+          "target": "10000",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": 5000,
+          "target": 5000,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "25062646",
+          "target": "25062646",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "1",
+          "target": "1",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "5000",
+          "target": "5000",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "event_type",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "event_type",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "event_type",
+          "status": "PASS",
+          "source": 5,
+          "target": 5,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "event_data",
+          "status": "PASS",
+          "source": 300,
+          "target": 300,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "event_data",
+          "status": "PASS",
+          "source": 7217,
+          "target": 7217,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "event_data_raw",
+          "status": "PASS",
+          "source": 300,
+          "target": 300,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "event_data_raw",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "event_data_raw",
+          "status": "PASS",
+          "source": 7217,
+          "target": 7217,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "created_at",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "created_at",
+          "status": "PASS",
+          "source": 10000,
+          "target": 10000,
+          "detail": ""
+        },
+        {
+          "check": "row_fingerprint",
+          "column": null,
+          "status": "WARN",
+          "source": 10000,
+          "target": 10000,
+          "detail": "1 rows differ only by known limitations: 1 cells: known BigQuery limitation: JSON numbers stored as FLOAT64 (_raw companion matches exactly)"
+        },
+        {
+          "check": "partitioning",
+          "column": "created_at",
+          "status": "INFO",
+          "source": "created_at",
+          "target": null,
+          "detail": "partitioning deferred: sandbox partition expiry"
+        },
+        {
+          "check": "clustering",
+          "column": null,
+          "status": "PASS",
+          "source": [
+            "loan_id",
+            "event_type"
+          ],
+          "target": [
+            "loan_id",
+            "event_type"
+          ],
+          "detail": ""
+        }
+      ],
+      "status": "WARN",
+      "check_counts": {
+        "PASS": 29,
+        "INFO": 1,
+        "WARN": 1,
+        "FAIL": 0
+      }
+    },
+    {
+      "source_table": "loans",
+      "target_table": "agent_loans",
+      "table_id": "your-gcp-project.migrated_lending.agent_loans",
+      "primary_key": [
+        "loan_id"
+      ],
+      "fingerprint": {
+        "source_rows": 5000,
+        "target_rows": 5000,
+        "matching": 3988,
+        "mismatched": 0,
+        "known_limitation_rows": 1012,
+        "missing_in_target": 0,
+        "extra_in_target": 0,
+        "column_mismatch_counts": {},
+        "known_limitation_cells": {
+          "null_array": 1012
+        },
+        "examples": [
+          {
+            "primary_key": {
+              "loan_id": "4"
+            },
+            "column": "tags",
+            "source_value": null,
+            "target_value": "[]",
+            "known_limitation": "null_array"
+          },
+          {
+            "primary_key": {
+              "loan_id": "7"
+            },
+            "column": "tags",
+            "source_value": null,
+            "target_value": "[]",
+            "known_limitation": "null_array"
+          },
+          {
+            "primary_key": {
+              "loan_id": "11"
+            },
+            "column": "tags",
+            "source_value": null,
+            "target_value": "[]",
+            "known_limitation": "null_array"
+          },
+          {
+            "primary_key": {
+              "loan_id": "16"
+            },
+            "column": "tags",
+            "source_value": null,
+            "target_value": "[]",
+            "known_limitation": "null_array"
+          },
+          {
+            "primary_key": {
+              "loan_id": "18"
+            },
+            "column": "tags",
+            "source_value": null,
+            "target_value": "[]",
+            "known_limitation": "null_array"
+          }
+        ],
+        "raw_companions_exact": {}
+      },
+      "checks": [
+        {
+          "check": "schema",
+          "column": null,
+          "status": "PASS",
+          "source": null,
+          "target": null,
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "integer",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": "integer",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "integer",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "loan_type",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "principal_amount",
+          "status": "PASS",
+          "source": "numeric(14,4)",
+          "target": "NUMERIC",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "interest_rate",
+          "status": "PASS",
+          "source": "numeric(6,3)",
+          "target": "NUMERIC",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "tenure_months",
+          "status": "PASS",
+          "source": "integer",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "emi_amount",
+          "status": "PASS",
+          "source": "numeric(14,4)",
+          "target": "NUMERIC",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "status",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "disbursed_at",
+          "status": "PASS",
+          "source": "timestamp without time zone",
+          "target": "DATETIME",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "next_due_date",
+          "status": "PASS",
+          "source": "date",
+          "target": "DATE",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "tags",
+          "status": "PASS",
+          "source": "text[]",
+          "target": "ARRAY<STRING>",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "remarks",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "created_at",
+          "status": "PASS",
+          "source": "timestamp without time zone",
+          "target": "DATETIME",
+          "detail": ""
+        },
+        {
+          "check": "row_count",
+          "column": null,
+          "status": "PASS",
+          "source": 5000,
+          "target": 5000,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": 5000,
+          "target": 5000,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "12502500",
+          "target": "12502500",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "1",
+          "target": "1",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "5000",
+          "target": "5000",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": 1844,
+          "target": 1844,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": "4991299",
+          "target": "4991299",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": "1",
+          "target": "1",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "customer_id",
+          "status": "PASS",
+          "source": "2000",
+          "target": "2000",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": 20,
+          "target": 20,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "53414",
+          "target": "53414",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "1",
+          "target": "1",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "branch_id",
+          "status": "PASS",
+          "source": "20",
+          "target": "20",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "loan_type",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "loan_type",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "loan_type",
+          "status": "PASS",
+          "source": 6,
+          "target": 6,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "principal_amount",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "principal_amount",
+          "status": "PASS",
+          "source": 4997,
+          "target": 4997,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "principal_amount",
+          "status": "PASS",
+          "source": "26902369751.7884",
+          "target": "26902369751.7884",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "principal_amount",
+          "status": "PASS",
+          "source": "10034.758",
+          "target": "10034.758",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "principal_amount",
+          "status": "PASS",
+          "source": "9999999999.9999",
+          "target": "9999999999.9999",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "interest_rate",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "interest_rate",
+          "status": "PASS",
+          "source": 4345,
+          "target": 4345,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "interest_rate",
+          "status": "PASS",
+          "source": "84239.363",
+          "target": "84239.363",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "interest_rate",
+          "status": "PASS",
+          "source": "8.502",
+          "target": "8.502",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "interest_rate",
+          "status": "PASS",
+          "source": "27.997",
+          "target": "27.997",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "tenure_months",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "tenure_months",
+          "status": "PASS",
+          "source": 7,
+          "target": 7,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "tenure_months",
+          "status": "PASS",
+          "source": "146946",
+          "target": "146946",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "tenure_months",
+          "status": "PASS",
+          "source": "6",
+          "target": "6",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "tenure_months",
+          "status": "PASS",
+          "source": "60",
+          "target": "60",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "emi_amount",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "emi_amount",
+          "status": "PASS",
+          "source": 5000,
+          "target": 5000,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "emi_amount",
+          "status": "PASS",
+          "source": "1664400921.9933",
+          "target": "1664400921.9933",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "emi_amount",
+          "status": "PASS",
+          "source": "234.2497",
+          "target": "234.2497",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "emi_amount",
+          "status": "PASS",
+          "source": "907923878.8287",
+          "target": "907923878.8287",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "status",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "status",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "status",
+          "status": "PASS",
+          "source": 4,
+          "target": 4,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "disbursed_at",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "disbursed_at",
+          "status": "PASS",
+          "source": 5000,
+          "target": 5000,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "next_due_date",
+          "status": "PASS",
+          "source": 1528,
+          "target": 1528,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "next_due_date",
+          "status": "PASS",
+          "source": 210,
+          "target": 210,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "tags",
+          "status": "WARN",
+          "source": 1012,
+          "target": 0,
+          "detail": "known BigQuery limitation: NULL arrays loaded as empty arrays"
+        },
+        {
+          "check": "distinct_count",
+          "column": "tags",
+          "status": "PASS",
+          "source": 535,
+          "target": 535,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "remarks",
+          "status": "PASS",
+          "source": 2011,
+          "target": 2011,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "remarks",
+          "status": "PASS",
+          "source": 1004,
+          "target": 1004,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "remarks",
+          "status": "PASS",
+          "source": 6,
+          "target": 6,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "created_at",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "created_at",
+          "status": "PASS",
+          "source": 5000,
+          "target": 5000,
+          "detail": ""
+        },
+        {
+          "check": "row_fingerprint",
+          "column": null,
+          "status": "WARN",
+          "source": 5000,
+          "target": 5000,
+          "detail": "1012 rows differ only by known limitations: 1012 cells: known BigQuery limitation: NULL arrays loaded as empty arrays"
+        },
+        {
+          "check": "partitioning",
+          "column": null,
+          "status": "PASS",
+          "source": null,
+          "target": null,
+          "detail": ""
+        },
+        {
+          "check": "clustering",
+          "column": null,
+          "status": "PASS",
+          "source": [
+            "status",
+            "loan_type",
+            "branch_id",
+            "customer_id"
+          ],
+          "target": [
+            "status",
+            "loan_type",
+            "branch_id",
+            "customer_id"
+          ],
+          "detail": ""
+        }
+      ],
+      "status": "WARN",
+      "check_counts": {
+        "PASS": 69,
+        "INFO": 0,
+        "WARN": 2,
+        "FAIL": 0
+      }
+    },
+    {
+      "source_table": "payments",
+      "target_table": "agent_payments",
+      "table_id": "your-gcp-project.migrated_lending.agent_payments",
+      "primary_key": [
+        "payment_id"
+      ],
+      "fingerprint": {
+        "source_rows": 20000,
+        "target_rows": 20000,
+        "matching": 20000,
+        "mismatched": 0,
+        "known_limitation_rows": 0,
+        "missing_in_target": 0,
+        "extra_in_target": 0,
+        "column_mismatch_counts": {},
+        "known_limitation_cells": {},
+        "examples": [],
+        "raw_companions_exact": {}
+      },
+      "checks": [
+        {
+          "check": "schema",
+          "column": null,
+          "status": "PASS",
+          "source": null,
+          "target": null,
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "payment_id",
+          "status": "PASS",
+          "source": "bigint",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "integer",
+          "target": "INT64",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "amount",
+          "status": "PASS",
+          "source": "numeric(14,4)",
+          "target": "NUMERIC",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "payment_time",
+          "status": "PASS",
+          "source": "timestamp without time zone",
+          "target": "DATETIME",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "payment_mode",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "status",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "reference_no",
+          "status": "PASS",
+          "source": "text",
+          "target": "STRING",
+          "detail": ""
+        },
+        {
+          "check": "type_fidelity",
+          "column": "created_at",
+          "status": "PASS",
+          "source": "timestamp without time zone",
+          "target": "DATETIME",
+          "detail": ""
+        },
+        {
+          "check": "row_count",
+          "column": null,
+          "status": "PASS",
+          "source": 20000,
+          "target": 20000,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "payment_id",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "payment_id",
+          "status": "PASS",
+          "source": 20000,
+          "target": 20000,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "payment_id",
+          "status": "PASS",
+          "source": "200010000",
+          "target": "200010000",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "payment_id",
+          "status": "PASS",
+          "source": "1",
+          "target": "1",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "payment_id",
+          "status": "PASS",
+          "source": "20000",
+          "target": "20000",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": 4902,
+          "target": 4902,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "49995050",
+          "target": "49995050",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "1",
+          "target": "1",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "loan_id",
+          "status": "PASS",
+          "source": "5000",
+          "target": "5000",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "amount",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "amount",
+          "status": "PASS",
+          "source": 12601,
+          "target": 12601,
+          "detail": ""
+        },
+        {
+          "check": "sum",
+          "column": "amount",
+          "status": "PASS",
+          "source": "7334825378.0103",
+          "target": "7334825378.0103",
+          "detail": ""
+        },
+        {
+          "check": "min",
+          "column": "amount",
+          "status": "PASS",
+          "source": "100.4206",
+          "target": "100.4206",
+          "detail": ""
+        },
+        {
+          "check": "max",
+          "column": "amount",
+          "status": "PASS",
+          "source": "907923878.8287",
+          "target": "907923878.8287",
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "payment_time",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "payment_time",
+          "status": "PASS",
+          "source": 20000,
+          "target": 20000,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "payment_mode",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "payment_mode",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "payment_mode",
+          "status": "PASS",
+          "source": 6,
+          "target": 6,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "status",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "status",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "status",
+          "status": "PASS",
+          "source": 3,
+          "target": 3,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "reference_no",
+          "status": "PASS",
+          "source": 2537,
+          "target": 2537,
+          "detail": ""
+        },
+        {
+          "check": "empty_string_count",
+          "column": "reference_no",
+          "status": "PASS",
+          "source": 2492,
+          "target": 2492,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "reference_no",
+          "status": "PASS",
+          "source": 14972,
+          "target": 14972,
+          "detail": ""
+        },
+        {
+          "check": "null_count",
+          "column": "created_at",
+          "status": "PASS",
+          "source": 0,
+          "target": 0,
+          "detail": ""
+        },
+        {
+          "check": "distinct_count",
+          "column": "created_at",
+          "status": "PASS",
+          "source": 20000,
+          "target": 20000,
+          "detail": ""
+        },
+        {
+          "check": "row_fingerprint",
+          "column": null,
+          "status": "PASS",
+          "source": 20000,
+          "target": 20000,
+          "detail": "all 20000 rows match"
+        },
+        {
+          "check": "partitioning",
+          "column": "payment_time",
+          "status": "INFO",
+          "source": "payment_time",
+          "target": null,
+          "detail": "partitioning deferred: sandbox partition expiry"
+        },
+        {
+          "check": "clustering",
+          "column": null,
+          "status": "PASS",
+          "source": [
+            "loan_id",
+            "status",
+            "payment_mode"
+          ],
+          "target": [
+            "loan_id",
+            "status",
+            "payment_mode"
+          ],
+          "detail": ""
+        }
+      ],
+      "status": "PASS",
+      "check_counts": {
+        "PASS": 40,
+        "INFO": 1,
+        "WARN": 0,
+        "FAIL": 0
+      }
+    }
+  ],
+  "ai_explanations": {
+    "label": "AI-generated by Gemini - advisory only; does not affect any status",
+    "model": "gemini-3.5-flash-lite",
+    "items": [
+      {
+        "finding_id": "F1",
+        "table": "loan_events",
+        "check": "row_fingerprint",
+        "column": null,
+        "status": "WARN",
+        "explanation": "One row differs due to a known BigQuery JSON limitation where numbers are stored as FLOAT64, causing minor floating-point precision differences.",
+        "suggested_fix": "Ignore this discrepancy as it is a known behavior of BigQuery JSON handling, or use STRING columns if exact numerical precision inside JSON is required."
+      },
+      {
+        "finding_id": "F2",
+        "table": "loans",
+        "check": "null_count",
+        "column": "tags",
+        "status": "WARN",
+        "explanation": "Target has 0 null values while source has 1012 because BigQuery loads NULL arrays as empty arrays by default.",
+        "suggested_fix": "Update your query logic to treat empty arrays as nulls where appropriate."
+      },
+      {
+        "finding_id": "F3",
+        "table": "loans",
+        "check": "row_fingerprint",
+        "column": null,
+        "status": "WARN",
+        "explanation": "1012 rows differ because BigQuery converts source NULL arrays into empty arrays during load.",
+        "suggested_fix": "No action is required unless your application logic specifically depends on distinguishing between null and empty arrays."
+      }
+    ]
+  },
+  "query_parity": {
+    "model_used_for_translation": "gemini-3.5-flash-lite",
+    "note": "SQL was translated by Gemini; PASS/FAIL comes only from deterministic result comparison. NOT_RUN = no translation available (Gemini unavailable and no previous translation to reuse).",
+    "summary": {
+      "queries": 3,
+      "passed": 3,
+      "failed": 0,
+      "not_run": 0,
+      "overall": "PASS"
+    },
+    "queries": [
+      {
+        "name": "monthly_disbursement_by_branch",
+        "status": "PASS",
+        "detail": "all 645 rows identical",
+        "confidence": "high",
+        "dialect_changes": [
+          "DATE_TRUNC syntax change",
+          "DATE cast syntax change",
+          "Numeric precision cast mapping",
+          "Timestamp literal cast",
+          "ILIKE -> NOT (LOWER() LIKE)",
+          "Table references with fully-qualified backticks"
+        ],
+        "translation_source": "gemini",
+        "gemini_error": null,
+        "examples": []
+      },
+      {
+        "name": "currently_overdue_loans",
+        "status": "PASS",
+        "detail": "all 1375 rows identical",
+        "confidence": "high",
+        "dialect_changes": [
+          "Replaced table aliases with fully qualified BigQuery table names",
+          "Replaced date subtraction with DATE_DIFF function",
+          "Replaced type cast ::int with CAST(... AS INT64)",
+          "Replaced CURRENT_DATE with CURRENT_DATE()",
+          "Replaced ILIKE with LOWER() LIKE"
+        ],
+        "translation_source": "gemini",
+        "gemini_error": null,
+        "examples": []
+      },
+      {
+        "name": "collection_rate_by_branch",
+        "status": "PASS",
+        "detail": "all 20 rows identical",
+        "confidence": "high",
+        "dialect_changes": [
+          "FILTER (WHERE ...) -> CASE WHEN ... THEN ... END",
+          "::numeric(18,4) -> CAST(... AS NUMERIC)",
+          "ILIKE -> LOWER() LIKE",
+          "table aliases -> fully qualified backticked tables"
+        ],
+        "translation_source": "gemini",
+        "gemini_error": null,
+        "examples": []
+      }
+    ],
+    "carried_over_from_report_at": "2026-11-09T12:52:16"
+  },
+  "overall_status": "WARN"
+}
